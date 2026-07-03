@@ -1,0 +1,14 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Brand Navy" subtitle="The logo's monitor body — ink & anchor color" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+ body{margin:0;padding:18px;background:var(--surface-card);font-family:var(--font-body)}
+ .ramp{display:flex;gap:0;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm)}
+ .sw{flex:1;height:84px;display:flex;flex-direction:column;justify-content:flex-end;padding:8px 9px}
+ .n{font:600 11px var(--font-display);letter-spacing:.04em}
+ .h{font:400 10px var(--font-mono);opacity:.85}
+</style></head><body>
+<div class="ramp" id="r"></div>
+<script>
+const steps=[['900','#0a0f2e','#fff'],['800','#101840','#fff'],['700','#1a2456','#fff'],['600','#26326e','#fff'],['500','#37458a','#fff'],['400','#5b69ad','#fff'],['300','#8b96c9','#101840'],['200','#c1c8e4','#101840'],['100','#e5e8f5','#101840']];
+document.getElementById('r').innerHTML=steps.map(([n,h,t])=>`<div class="sw" style="background:${h};color:${t}"><span class="n">navy-${n}</span><span class="h">${h}</span></div>`).join('');
+</script></body></html>

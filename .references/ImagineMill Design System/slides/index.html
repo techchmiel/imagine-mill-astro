@@ -1,0 +1,34 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ImagineMill · Sample Slides</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+ html,body{margin:0;height:100%;background:#0a0f2e;overflow:hidden}
+ #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+ #frame{width:1280px;height:720px;transform-origin:center;box-shadow:var(--shadow-xl);background:#fff}
+ iframe{width:1280px;height:720px;border:0;display:block}
+ .nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;
+   background:rgba(16,24,64,.72);backdrop-filter:blur(10px);padding:8px 10px;border-radius:999px;z-index:10}
+ .nav button{width:40px;height:40px;border-radius:999px;border:0;cursor:pointer;background:var(--blue-500);color:#fff;
+   font-size:18px;display:flex;align-items:center;justify-content:center}
+ .nav button:hover{background:var(--blue-400)}
+ .count{font-family:var(--font-mono);font-size:13px;color:#cfe0f4;min-width:52px;text-align:center}
+</style></head><body>
+<div id="stage"><div id="frame"><iframe id="if" src="title.card.html"></iframe></div></div>
+<div class="nav">
+ <button id="prev" aria-label="Previous">&#8249;</button>
+ <span class="count" id="count">1 / 5</span>
+ <button id="next" aria-label="Next">&#8250;</button>
+</div>
+<script>
+ const slides=['title.card.html','section.card.html','content.card.html','comparison.card.html','quote.card.html'];
+ let i=0;
+ const ifr=document.getElementById('if'),count=document.getElementById('count');
+ function show(){ifr.src=slides[i];count.textContent=(i+1)+' / '+slides.length;}
+ function go(d){i=(i+d+slides.length)%slides.length;show();}
+ document.getElementById('next').onclick=()=>go(1);
+ document.getElementById('prev').onclick=()=>go(-1);
+ document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1);});
+ function fit(){const s=Math.min(window.innerWidth/1280,window.innerHeight/720)*0.9;document.getElementById('frame').style.transform='scale('+s+')';}
+ window.addEventListener('resize',fit);fit();
+</script></body></html>

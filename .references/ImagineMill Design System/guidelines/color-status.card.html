@@ -1,0 +1,18 @@
+<!-- @dsCard group="Colors" viewport="700x160" name="Status Colors" subtitle="Semantic pairs for success, info, warning & danger" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+ body{margin:0;padding:18px;background:var(--surface-card);font-family:var(--font-body)}
+ .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+ .cell{border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border-subtle)}
+ .bar{height:44px}
+ .body{padding:9px 11px;display:flex;flex-direction:column;gap:2px}
+ .lab{font:700 12px var(--font-display);letter-spacing:.04em;color:var(--text-strong)}
+ .sub{font:500 11px var(--font-body);color:var(--text-muted)}
+ .h{font:400 10px var(--font-mono);color:var(--text-faint)}
+</style></head><body>
+<div class="grid">
+ <div class="cell"><div class="bar" style="background:var(--status-success)"></div><div class="body" style="background:var(--status-success-bg)"><span class="lab">Success</span><span class="h">green-600</span></div></div>
+ <div class="cell"><div class="bar" style="background:var(--status-info)"></div><div class="body" style="background:var(--status-info-bg)"><span class="lab">Info</span><span class="h">blue-500</span></div></div>
+ <div class="cell"><div class="bar" style="background:var(--status-warn)"></div><div class="body" style="background:var(--status-warn-bg)"><span class="lab">Warning</span><span class="h">#d98a1e</span></div></div>
+ <div class="cell"><div class="bar" style="background:var(--status-danger)"></div><div class="body" style="background:var(--status-danger-bg)"><span class="lab">Danger</span><span class="h">red-500</span></div></div>
+</div></body></html>

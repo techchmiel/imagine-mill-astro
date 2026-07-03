@@ -1,0 +1,26 @@
+<!-- @dsCard group="Components" viewport="700x230" name="Form Fields" subtitle="Text inputs & selects with labels, hints and errors" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; padding:22px 24px; background:var(--bg-page); }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:18px 20px; max-width:600px; }
+</style></head>
+<body><div id="root"></div>
+<script type="text/babel">
+const { Input, Select } = window.ImagineMillDesignSystem_ef9c8c;
+function Demo(){
+  return (
+    <div className="grid">
+      <Input label="Work email" type="email" placeholder="you@company.com" hint="One digest a week. No spam." />
+      <Select label="Topic" placeholder="Choose a topic" options={['Microsoft 365','Cloud','AI','Security']} />
+      <Input label="Tenant name" defaultValue="contos" error="That tenant doesn't exist." />
+      <Select label="Role" options={[{value:'admin',label:'IT Admin'},{value:'user',label:'End user'},{value:'mgr',label:'Manager'}]} />
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

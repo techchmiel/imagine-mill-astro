@@ -1,0 +1,46 @@
+<!-- @dsCard group="Components" viewport="700x210" name="Badges, Tags & Avatars" subtitle="Status pills, topic chips with node markers, author avatars" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; padding:22px 24px; background:var(--bg-page); }
+  .wrap { display:flex; flex-direction:column; gap:16px; }
+  .row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .lbl { font:600 11px var(--font-display); letter-spacing:.12em; text-transform:uppercase; color:var(--text-faint); width:100%; }
+</style></head>
+<body><div id="root"></div>
+<script type="text/babel">
+const { Badge, Tag, Avatar } = window.ImagineMillDesignSystem_ef9c8c;
+function Demo(){
+  return (
+    <div className="wrap">
+      <div className="row"><span className="lbl">Badges</span>
+        <Badge variant="info">New</Badge>
+        <Badge variant="success" dot>Published</Badge>
+        <Badge variant="warn">Draft</Badge>
+        <Badge variant="danger" dot>Deprecated</Badge>
+        <Badge variant="navy">Video</Badge>
+        <Badge variant="neutral">12 min</Badge>
+        <Badge variant="outline">Guide</Badge>
+      </div>
+      <div className="row"><span className="lbl">Tags</span>
+        <Tag>Microsoft 365</Tag>
+        <Tag variant="green">Cloud</Tag>
+        <Tag variant="red">AI</Tag>
+        <Tag variant="solid" node={false}>Admin</Tag>
+        <Tag variant="blue">Copilot</Tag>
+      </div>
+      <div className="row"><span className="lbl">Avatars</span>
+        <Avatar name="Jordan Vale" size="xs" />
+        <Avatar name="Priya Shah" size="sm" />
+        <Avatar name="Marcus Lee" size="md" ring />
+        <Avatar name="Ada Okoro" size="lg" />
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

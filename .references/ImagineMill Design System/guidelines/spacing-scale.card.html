@@ -1,0 +1,14 @@
+<!-- @dsCard group="Spacing" viewport="700x180" name="Spacing Scale" subtitle="4px base grid, tokens 1–24" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+ body{margin:0;padding:18px 22px;background:var(--surface-card);font-family:var(--font-body)}
+ .r{display:flex;align-items:center;gap:12px;padding:3px 0}
+ .bar{background:var(--blue-300);height:14px;border-radius:3px}
+ .n{font:600 11px var(--font-display);color:var(--navy-800);width:64px}
+ .px{font:400 11px var(--font-mono);color:var(--text-faint)}
+</style></head><body>
+<div id="r"></div>
+<script>
+const s=[['1',4],['2',8],['3',12],['4',16],['6',24],['8',32],['12',48],['16',64],['20',80]];
+document.getElementById('r').innerHTML=s.map(([n,px])=>`<div class="r"><span class="n">space-${n}</span><span class="bar" style="width:${px}px"></span><span class="px">${px}px</span></div>`).join('');
+</script></body></html>

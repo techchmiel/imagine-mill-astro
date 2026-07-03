@@ -1,0 +1,14 @@
+<!-- @dsCard group="Brand" viewport="700x200" name="Circuit Backgrounds" subtitle="Navy circuit-grid ground and soft screen wash" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+ body{margin:0;padding:0;font-family:var(--font-body)}
+ .grid{display:grid;grid-template-columns:1fr 1fr;height:200px}
+ .cell{display:flex;align-items:flex-end;padding:16px;position:relative;overflow:hidden}
+ .soft{background:var(--gradient-screen-soft)}
+ .lab{font:600 10px var(--font-display);letter-spacing:.12em;text-transform:uppercase}
+ .glow{position:absolute;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(56,176,232,.5),transparent 70%);top:-30px;right:-20px}
+</style></head><body>
+<div class="grid">
+ <div class="cell im-circuit-bg"><div class="glow"></div><span class="lab" style="color:var(--blue-200);position:relative">.im-circuit-bg — navy grid</span></div>
+ <div class="cell soft"><span class="lab" style="color:var(--blue-800)">screen wash — soft</span></div>
+</div></body></html>

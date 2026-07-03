@@ -1,0 +1,14 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Signal Red" subtitle="The tagline & accent color — alert, emphasis" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+ body{margin:0;padding:18px;background:var(--surface-card);font-family:var(--font-body)}
+ .ramp{display:flex;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm)}
+ .sw{flex:1;height:84px;display:flex;flex-direction:column;justify-content:flex-end;padding:8px 9px}
+ .n{font:600 11px var(--font-display);letter-spacing:.04em}
+ .h{font:400 10px var(--font-mono);opacity:.85}
+</style></head><body>
+<div class="ramp" id="r"></div>
+<script>
+const steps=[['700','#8f171d','#fff'],['600','#a81c23','#fff'],['500 ★','#b82028','#fff'],['400','#d0454c','#fff'],['300','#e28288','#3a0407'],['200','#f0bfc2','#3a0407'],['100','#fae6e7','#3a0407']];
+document.getElementById('r').innerHTML=steps.map(([n,h,t])=>`<div class="sw" style="background:${h};color:${t}"><span class="n">red-${n}</span><span class="h">${h}</span></div>`).join('');
+</script></body></html>

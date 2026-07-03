@@ -1,0 +1,33 @@
+<!-- @dsCard group="Brand" viewport="700x200" name="Circuit Motif" subtitle="Signal rule, connection nodes & traces — the brand's signature graphic language" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+ body{margin:0;padding:22px;background:var(--surface-card);font-family:var(--font-body);display:flex;flex-direction:column;gap:18px}
+ .lab{font:600 10px var(--font-display);letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:8px}
+ .nodes{display:flex;align-items:center;gap:0}
+ .trace{height:2px;width:54px;background:var(--navy-300)}
+ .node{width:16px;height:16px;border-radius:6px;border:3px solid;background:transparent}
+ .row{display:flex;gap:34px;flex-wrap:wrap}
+</style></head><body>
+ <div>
+  <div class="lab">Signal rule — green · blue · red</div>
+  <hr class="im-signal-rule" style="max-width:340px">
+ </div>
+ <div class="row">
+  <div>
+   <div class="lab">Connection nodes</div>
+   <div class="nodes">
+     <span class="node" style="border-color:var(--green-500)"></span><span class="trace"></span>
+     <span class="node" style="border-color:var(--blue-500)"></span><span class="trace"></span>
+     <span class="node" style="border-color:var(--red-500)"></span><span class="trace" style="width:30px"></span>
+     <span class="node" style="border-color:var(--green-500);border-radius:2px"></span>
+   </div>
+  </div>
+  <div>
+   <div class="lab">Filled node</div>
+   <div class="nodes">
+     <span class="node" style="border-color:var(--blue-500);background:var(--blue-500)"></span><span class="trace" style="background:var(--blue-300)"></span>
+     <span class="node" style="border-color:var(--blue-400)"></span>
+   </div>
+  </div>
+ </div>
+</body></html>

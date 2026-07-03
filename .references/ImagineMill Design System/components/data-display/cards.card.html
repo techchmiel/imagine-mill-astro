@@ -1,0 +1,41 @@
+<!-- @dsCard group="Components" viewport="700x440" name="Content Cards" subtitle="Article & video cards composed from Badge, Tag & Avatar" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; padding:22px 24px; background:var(--bg-page); }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:640px; }
+</style></head>
+<body><div id="root"></div>
+<script type="text/babel">
+const { Card, Badge, Tag, Avatar } = window.ImagineMillDesignSystem_ef9c8c;
+const Media = ({from,to}) => <div style={{width:'100%',height:'100%',background:`linear-gradient(135deg,${from},${to})`}}/>;
+function Demo(){
+  return (
+    <div className="grid">
+      <Card
+        href="#"
+        kind="video"
+        media={<Media from="#1080c0" to="#38b0e8"/>}
+        badge={<Badge variant="navy">Video</Badge>}
+        title="Rolling out Copilot without the chaos"
+        excerpt="A calm, staged plan for admins bringing AI into Microsoft 365."
+        meta={<><Avatar name="Jordan Vale" size="xs" /><span>Jordan Vale · 8 min</span></>}
+      />
+      <Card
+        href="#"
+        kind="article"
+        media={<Media from="#101840" to="#26326e"/>}
+        badge={<Badge variant="info">Guide</Badge>}
+        title="Tenant-wide sharing settings, explained"
+        excerpt="What each toggle really does — and the safe defaults we recommend."
+        meta={<><Tag variant="green" node={false}>Cloud</Tag></>}
+      />
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

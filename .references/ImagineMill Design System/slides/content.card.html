@@ -1,0 +1,30 @@
+<!-- @dsCard group="Slides" viewport="1280x720" name="Content Slide" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+ html,body{margin:0}
+ .slide{width:1280px;height:720px;position:relative;overflow:hidden;background:var(--white);
+   font-family:var(--font-body);padding:72px 96px;box-sizing:border-box;display:flex;flex-direction:column}
+ .eyebrow{font-family:var(--font-display);font-weight:600;font-size:17px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-600);display:flex;align-items:center;gap:12px}
+ .node{width:14px;height:14px;border-radius:5px;border:3px solid var(--green-500)}
+ h1{font-family:var(--font-display);font-weight:800;font-size:52px;line-height:1.06;letter-spacing:-.02em;color:var(--navy-800);margin:16px 0 8px}
+ hr{border:0;height:3px;border-radius:3px;background:var(--gradient-signal);width:70px;margin:22px 0 40px}
+ .grid{display:grid;grid-template-columns:1fr 1fr;gap:26px 48px;flex:1;align-content:start}
+ .item{display:flex;gap:18px}
+ .marker{flex:none;width:42px;height:42px;border-radius:12px;background:var(--gradient-screen-soft);border:1.5px solid var(--blue-200);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;color:var(--blue-700);font-size:20px}
+ .item h3{font-family:var(--font-display);font-weight:700;font-size:23px;color:var(--navy-800);margin:2px 0 6px}
+ .item p{font-size:18px;line-height:1.55;color:var(--text-body);margin:0}
+ .foot{display:flex;align-items:center;gap:14px;margin-top:auto;padding-top:28px;color:var(--text-faint);font-size:14px}
+ .foot img{height:24px}
+</style></head><body>
+<div class="slide">
+ <div class="eyebrow"><span class="node"></span> Audit checklist</div>
+ <h1>Four things to lock down first</h1>
+ <hr>
+ <div class="grid">
+   <div class="item"><div class="marker">1</div><div><h3>Sharing settings</h3><p>Restrict tenant-wide external sharing to existing guests before any licenses are assigned.</p></div></div>
+   <div class="item"><div class="marker">2</div><div><h3>Sensitivity labels</h3><p>Confirm confidential content is labeled so Copilot respects the right boundaries.</p></div></div>
+   <div class="item"><div class="marker">3</div><div><h3>Access reviews</h3><p>Surface anything shared with "Everyone" and tidy up over-broad permissions.</p></div></div>
+   <div class="item"><div class="marker">4</div><div><h3>Pilot group</h3><p>Pick 15–20 people across three teams — not just the enthusiasts.</p></div></div>
+ </div>
+ <div class="foot"><img src="../assets/logos/imaginemill-suitebar.png" alt="ImagineMill"><span>· Modern Workplace Solutions</span></div>
+</div></body></html>

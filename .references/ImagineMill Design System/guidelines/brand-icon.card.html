@@ -1,0 +1,16 @@
+<!-- @dsCard group="Brand" viewport="700x220" name="App Icon & Stacked Mark" subtitle="Icon-only and stacked lockup variants" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+ body{margin:0;padding:0;font-family:var(--font-body)}
+ .grid{display:grid;grid-template-columns:1fr 1fr}
+ .cell{height:220px;display:flex;align-items:center;justify-content:center;padding:22px;position:relative}
+ .white{background:var(--white)}
+ .tint{background:var(--bg-page-tint)}
+ .lab{position:absolute;top:0;left:0;margin:14px;font:600 10px var(--font-display);letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint)}
+ .icon{height:130px}
+ .stacked{max-height:150px;max-width:70%}
+</style></head><body>
+<div class="grid">
+ <div class="cell white"><span class="lab">Icon only</span><img class="icon" src="../assets/logos/imaginemill-icon.png" alt="ImagineMill icon"></div>
+ <div class="cell tint"><span class="lab">Stacked</span><img class="stacked" src="../assets/logos/imaginemill-logo-stacked.png" alt="ImagineMill stacked"></div>
+</div></body></html>

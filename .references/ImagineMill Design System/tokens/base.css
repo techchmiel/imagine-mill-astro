@@ -1,0 +1,91 @@
+/* ============================================================
+   ImagineMill · Base element styles & brand utilities
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--text-body);
+  background: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headings default to the display voice */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--text-strong);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--ls-display);
+  font-weight: var(--fw-bold);
+  margin: 0 0 0.5em;
+}
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+h4 { font-size: var(--fs-h4); }
+
+p { margin: 0 0 1em; text-wrap: pretty; }
+
+a { color: var(--text-link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+code, kbd, pre { font-family: var(--font-mono); }
+code {
+  font-size: 0.9em;
+  background: var(--surface-sunken);
+  padding: 0.12em 0.4em;
+  border-radius: var(--radius-xs);
+  color: var(--navy-700);
+}
+
+::selection { background: var(--blue-200); color: var(--navy-900); }
+
+/* ---- Brand utility classes ---------------------------- */
+
+/* Eyebrow / tech label — the logo tagline treatment */
+.im-eyebrow {
+  font-family: var(--font-display);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--brand-primary);
+}
+
+/* The three-signal hairline: green → blue → red */
+.im-signal-rule {
+  height: 3px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-signal);
+}
+
+/* Gradient text in the brand screen-blue */
+.im-gradient-text {
+  background: var(--gradient-screen);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Circuit-node dot — small rounded square, brand signature */
+.im-node {
+  display: inline-block;
+  width: 10px; height: 10px;
+  border-radius: var(--radius-node);
+  border: var(--bw-node) solid currentColor;
+  background: transparent;
+}
+
+/* Subtle circuit-trace background texture */
+.im-circuit-bg {
+  background-color: var(--surface-navy);
+  background-image:
+    linear-gradient(rgba(56,176,232,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,176,232,0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+}

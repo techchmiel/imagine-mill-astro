@@ -1,0 +1,26 @@
+<!-- @dsCard group="Components" viewport="700x420" name="Callouts & Code" subtitle="Tutorial note boxes and terminal-style code blocks" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; padding:22px 24px; background:var(--bg-page); }
+  .wrap { display:flex; flex-direction:column; gap:14px; max-width:640px; }
+</style></head>
+<body><div id="root"></div>
+<script type="text/babel">
+const { Callout, CodeBlock } = window.ImagineMillDesignSystem_ef9c8c;
+function Demo(){
+  return (
+    <div className="wrap">
+      <Callout type="tip" title="Shortcut">Pin the admin center to your Microsoft 365 launcher for one-click access.</Callout>
+      <Callout type="warning" title="Heads up">Changing this tenant setting can take up to 24 hours to fully propagate.</Callout>
+      <CodeBlock language="PowerShell" filename="Set-Sharing.ps1"
+        code={`Connect-SPOService -Url https://contoso-admin.sharepoint.com\nSet-SPOTenant -SharingCapability ExternalUserSharingOnly`} />
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

@@ -1,0 +1,15 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Circuit Blue" subtitle="The glowing screen gradient — primary brand color" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+ body{margin:0;padding:18px;background:var(--surface-card);font-family:var(--font-body)}
+ .ramp{display:flex;gap:0;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm)}
+ .sw{flex:1;height:84px;display:flex;flex-direction:column;justify-content:flex-end;padding:8px 9px}
+ .n{font:600 11px var(--font-display);letter-spacing:.04em}
+ .h{font:400 10px var(--font-mono);opacity:.85}
+ .star{position:absolute;margin:-6px 0 0 -2px;font:700 10px var(--font-display)}
+</style></head><body>
+<div class="ramp" id="r"></div>
+<script>
+const steps=[['900','#0a5c94','#fff'],['800','#0f74b4','#fff'],['700','#1080c0','#fff'],['600','#1888c8','#fff'],['500 ★','#1e96d8','#fff'],['400','#2ba6e2','#fff'],['300','#38b0e8','#06283d'],['200','#8fd4f2','#06283d'],['100','#d3edfb','#06283d'],['050','#ecf8fe','#06283d']];
+document.getElementById('r').innerHTML=steps.map(([n,h,t])=>`<div class="sw" style="background:${h};color:${t}"><span class="n">blue-${n}</span><span class="h">${h}</span></div>`).join('');
+</script></body></html>

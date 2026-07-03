@@ -1,0 +1,14 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Signal Green" subtitle="The circuit-node color — growth, go, success" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+ body{margin:0;padding:18px;background:var(--surface-card);font-family:var(--font-body)}
+ .ramp{display:flex;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm)}
+ .sw{flex:1;height:84px;display:flex;flex-direction:column;justify-content:flex-end;padding:8px 9px}
+ .n{font:600 11px var(--font-display);letter-spacing:.04em}
+ .h{font:400 10px var(--font-mono);opacity:.85}
+</style></head><body>
+<div class="ramp" id="r"></div>
+<script>
+const steps=[['700','#4f8a1e','#fff'],['600','#63a52d','#fff'],['500 ★','#78c040','#0d2b00'],['400','#93cf66','#0d2b00'],['300','#b6e096','#0d2b00'],['200','#d8efc4','#0d2b00'],['100','#eef8e3','#0d2b00']];
+document.getElementById('r').innerHTML=steps.map(([n,h,t])=>`<div class="sw" style="background:${h};color:${t}"><span class="n">green-${n}</span><span class="h">${h}</span></div>`).join('');
+</script></body></html>

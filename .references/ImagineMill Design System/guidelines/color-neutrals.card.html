@@ -1,0 +1,14 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Neutrals" subtitle="Navy-tuned grays for text, borders & surfaces" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+ body{margin:0;padding:18px;background:var(--surface-card);font-family:var(--font-body)}
+ .ramp{display:flex;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid var(--border-subtle)}
+ .sw{flex:1;height:84px;display:flex;flex-direction:column;justify-content:flex-end;padding:8px 9px}
+ .n{font:600 11px var(--font-display);letter-spacing:.04em}
+ .h{font:400 10px var(--font-mono);opacity:.85}
+</style></head><body>
+<div class="ramp" id="r"></div>
+<script>
+const steps=[['900','#151a29','#fff'],['800','#262c40','#fff'],['700','#3d445c','#fff'],['600','#565f7a','#fff'],['500','#7681a0','#fff'],['400','#a4adc2','#151a29'],['300','#cbd2e0','#151a29'],['200','#e0e5ee','#151a29'],['100','#eef1f6','#151a29'],['050','#f6f8fb','#151a29']];
+document.getElementById('r').innerHTML=steps.map(([n,h,t])=>`<div class="sw" style="background:${h};color:${t}"><span class="n">gray-${n}</span><span class="h">${h}</span></div>`).join('');
+</script></body></html>
