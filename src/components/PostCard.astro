@@ -1,0 +1,74 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { CATEGORIES, platformName, readingTime } from '../consts';
+import FormattedDate from './FormattedDate.astro';
+import GradientArt from './GradientArt.astro';
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+	/** Bigger title, used for the lead card in a grid. */
+	large?: boolean;
+}
+
+const { post, large = false } = Astro.props;
+const { title, description, pubDate, heroImage, heroStyle, category, platforms } = post.data;
+const cat = CATEGORIES[category];
+const minutes = readingTime(post.body);
+---
+
+<article class:list={['im-card', 'im-card--interactive', { large }]}>
+	<a class="card-link" href={`/articles/${post.id}/`}>
+		<div class="im-card__media">
+			{
+				heroImage ? (
+					<Image width={720} height={405} src={heroImage} alt="" />
+				) : (
+					<GradientArt seed={post.id} style={heroStyle} />
+				)
+			}
+			<span class="im-card__media-badge">
+				<span class:list={['im-badge', `im-badge--${cat?.badge ?? 'neutral'}`]}>
+					<span class="im-badge__dot" aria-hidden="true"></span>
+					{cat?.name ?? category}
+				</span>
+			</span>
+		</div>
+		<div class="im-card__body">
+			<h3 class="im-card__title">{title}</h3>
+			<p class="im-card__excerpt">{description}</p>
+			<div class="im-card__meta">
+				<FormattedDate date={pubDate} />
+				<span class="dot" aria-hidden="true">·</span>
+				<span>{minutes} min read</span>
+				<span class="dot" aria-hidden="true">·</span>
+				<span class="platforms">{platforms.map(platformName).join(', ')}</span>
+			</div>
+		</div>
+	</a>
+</article>
+<style>
+	.card-link {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		color: inherit;
+		text-decoration: none;
+	}
+	.card-link:hover {
+		text-decoration: none;
+	}
+	article {
+		height: 100%;
+	}
+	.large .im-card__title {
+		font-size: var(--fs-h3);
+	}
+	.dot {
+		color: var(--gray-300);
+	}
+	.platforms {
+		color: var(--blue-700);
+		font-weight: var(--fw-semibold);
+	}
+</style>

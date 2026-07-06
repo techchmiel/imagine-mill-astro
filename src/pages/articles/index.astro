@@ -1,0 +1,210 @@
+---
+import { getCollection } from 'astro:content';
+import PostCard from '../../components/PostCard.astro';
+import { CATEGORIES, PLATFORMS, SITE_TITLE } from '../../consts';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<BaseLayout
+	title={`Articles — ${SITE_TITLE}`}
+	description="Every ImagineMill guide, explainer, and decision map — filter by platform or type, or search the lot."
+>
+	<div class="im-container">
+		<header class="page-head">
+			<hr class="im-signal-rule" />
+			<h1>All articles</h1>
+			<p>
+				Hard topics, made understandable. Filter by platform or type — or press{' '}
+				<button class="inline-search" type="button" data-search-open>search</button>{' '}
+				and just type.
+			</p>
+		</header>
+
+		<div class="filters" data-filters>
+			<div class="filter-row">
+				<span class="filter-label">Platform</span>
+				<button class="chip active" data-filter-platform="all" type="button">All</button>
+				{
+					Object.entries(PLATFORMS).map(([slug, p]) => (
+						<button class="chip" data-filter-platform={slug} type="button">
+							{p.name}
+						</button>
+					))
+				}
+			</div>
+			<div class="filter-row">
+				<span class="filter-label">Type</span>
+				<button class="chip active" data-filter-category="all" type="button">All</button>
+				{
+					Object.entries(CATEGORIES).map(([slug, c]) => (
+						<button class="chip" data-filter-category={slug} type="button">
+							{c.name}
+						</button>
+					))
+				}
+			</div>
+		</div>
+
+		<div class="grid" data-post-grid>
+			{
+				posts.map((post) => (
+					<div
+						class="grid-item"
+						data-platforms={post.data.platforms.join(' ')}
+						data-category={post.data.category}
+					>
+						<PostCard post={post} />
+					</div>
+				))
+			}
+		</div>
+		<p class="none-msg" data-none hidden>
+			No articles match that combination yet — the mill is always grinding. Try widening a filter.
+		</p>
+	</div>
+</BaseLayout>
+
+<script>
+	const state = { platform: 'all', category: 'all' };
+
+	function apply() {
+		const items = document.querySelectorAll<HTMLElement>('[data-post-grid] .grid-item');
+		let visible = 0;
+		items.forEach((item) => {
+			const platforms = (item.dataset.platforms ?? '').split(' ');
+			const okP = state.platform === 'all' || platforms.includes(state.platform);
+			const okC = state.category === 'all' || item.dataset.category === state.category;
+			item.hidden = !(okP && okC);
+			if (!item.hidden) visible++;
+		});
+		const none = document.querySelector<HTMLElement>('[data-none]');
+		if (none) none.hidden = visible > 0;
+	}
+
+	function wire(attr: 'filterPlatform' | 'filterCategory', key: 'platform' | 'category') {
+		const buttons = document.querySelectorAll<HTMLButtonElement>(
+			`[data-${key === 'platform' ? 'filter-platform' : 'filter-category'}]`,
+		);
+		buttons.forEach((btn) => {
+			btn.addEventListener('click', () => {
+				state[key] = btn.dataset[attr] ?? 'all';
+				buttons.forEach((b) => b.classList.toggle('active', b === btn));
+				apply();
+			});
+		});
+	}
+	wire('filterPlatform', 'platform');
+	wire('filterCategory', 'category');
+
+	// Allow deep-linking: /articles/?platform=copilot&category=how-to
+	const params = new URLSearchParams(window.location.search);
+	for (const key of ['platform', 'category'] as const) {
+		const v = params.get(key);
+		if (!v) continue;
+		const btn = document.querySelector<HTMLButtonElement>(
+			`[data-filter-${key}="${CSS.escape(v)}"]`,
+		);
+		btn?.click();
+	}
+</script>
+
+<style>
+	.page-head {
+		padding: var(--space-12) 0 var(--space-6);
+		max-width: var(--container-md);
+	}
+	.page-head .im-signal-rule {
+		width: 56px;
+		margin: 0 0 var(--space-4);
+	}
+	.page-head h1 {
+		margin-bottom: var(--space-2);
+	}
+	.page-head p {
+		color: var(--text-muted);
+		font-size: var(--fs-body-lg);
+		margin: 0;
+	}
+	.inline-search {
+		font: inherit;
+		color: var(--text-link);
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+	.filters {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		margin: var(--space-4) 0 var(--space-8);
+	}
+	.filter-row {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+	.filter-label {
+		font-family: var(--font-display);
+		font-weight: var(--fw-semibold);
+		font-size: var(--fs-micro);
+		letter-spacing: var(--ls-wider);
+		text-transform: uppercase;
+		color: var(--text-faint);
+		width: 72px;
+		flex: none;
+	}
+	.chip {
+		font-family: var(--font-body);
+		font-weight: var(--fw-semibold);
+		font-size: var(--fs-body-sm);
+		padding: 5px 12px;
+		border-radius: var(--radius-pill);
+		background: var(--white);
+		color: var(--text-body);
+		border: var(--bw-hair) solid var(--border-default);
+		cursor: pointer;
+		transition:
+			background-color var(--dur-base) var(--ease-standard),
+			border-color var(--dur-base) var(--ease-standard),
+			color var(--dur-base) var(--ease-standard);
+	}
+	.chip:hover {
+		border-color: var(--blue-300);
+		color: var(--blue-700);
+	}
+	.chip.active {
+		background: var(--navy-800);
+		border-color: var(--navy-800);
+		color: var(--blue-100);
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--space-6);
+	}
+	.grid-item[hidden] {
+		display: none;
+	}
+	.none-msg {
+		color: var(--text-muted);
+		padding: var(--space-8) 0;
+	}
+	@media (max-width: 960px) {
+		.grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@media (max-width: 620px) {
+		.grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

@@ -1,0 +1,61 @@
+---
+title: 'Microsoft 365 licensing, decoded: Business vs. E3 vs. E5'
+description: 'Business Premium, E3, E5, F3 — the alphabet soup finally sorted. The 300-seat rule, what each tier actually adds, and the honest questions that tell you which one you''re paying for versus which one you need.'
+pubDate: 2026-04-15
+platforms: ['microsoft-365']
+category: 'decision-guide'
+tags: ['licensing', 'budgeting', 'e3-vs-e5', 'business-premium']
+audience: 'leaders'
+heroStyle: 5
+---
+import Callout from '../../components/Callout.astro';
+
+Microsoft 365 licensing has a reputation, and the reputation is deserved. Plans with near-identical names, features that moved tiers three renames ago, and a comparison chart that requires a second monitor and a support group.
+
+But underneath the sprawl, the structure is actually sensible — once you know the two questions it's organized around: **how big are you**, and **how much security and compliance do you need built in**. Let's decode it top to bottom.
+
+## The map: three families
+
+**Business family — for organizations up to 300 seats.** Business Basic, Business Standard, and Business Premium. The 300 is a real, enforced ceiling across the whole family combined — grow past it and you're shopping in the enterprise aisle whether you like it or not.
+
+**Enterprise family — unlimited seats, deeper toolbox.** Office 365 E1/E3/E5 (the apps and services alone) and Microsoft 365 E3/E5 (the same, bundled with Windows enterprise licensing and the security/management stack). When people argue about "E3 vs. E5," they usually mean the Microsoft 365 flavor.
+
+**Frontline family — F1/F3.** Built (and priced) for shift, retail, and field workers who mainly need mobile/web access, Teams, and communication rather than a desktop Office suite on a dedicated computer.
+
+## The Business tiers, in one breath each
+
+- **Business Basic:** web and mobile only. Email, Teams, OneDrive, SharePoint, browser versions of Word/Excel/PowerPoint. No installed desktop apps. Great for lean teams; a false economy for anyone living in Excel.
+- **Business Standard:** Basic plus the full installed desktop apps. The default choice for most small businesses.
+- **Business Premium:** Standard plus the security stack — device management (Intune), advanced email/threat protection (Defender flavors), and **Entra ID P1**, which unlocks [Conditional Access](/articles/conditional-access-for-normal-humans/). For any small org that handles money or client data — which is all of them — this tier is where "we take security seriously" stops being a slide and starts being infrastructure.
+
+<Callout type="tip" title="The small-business cheat code">
+Business Premium is quietly one of the best bundles Microsoft sells: a meaningful slice of the enterprise security stack at small-business pricing. If you're under 300 seats and comparing it against E3, Premium wins more often than the naming implies.
+</Callout>
+
+## E3 vs. E5: the actual difference
+
+**Microsoft 365 E3** is the enterprise workhorse: everything installed, unlimited seats, Windows enterprise, device management, solid baseline compliance. Most large organizations run mostly-E3.
+
+**Microsoft 365 E5** is E3 plus the premium security and analytics estate: advanced threat protection across endpoints and email, risk-based identity protection (Entra ID P2), the fuller Purview compliance suite (advanced eDiscovery, insider risk), Power BI Pro, and Teams Phone capabilities. 
+
+The honest test for E5 isn't "is it better?" — it is, and it costs like it. The test is: **would we otherwise buy these capabilities separately?** An org running a third-party SIEM-lite, a separate phone system, standalone BI licenses, and an eDiscovery tool may find E5 *cheaper* than its pile of point solutions. An org that would use none of those is buying a very nice gym membership for the January version of itself.
+
+Middle paths exist and are underused: Microsoft sells **E5 Security** and **E5 Compliance** as add-ons to E3, and you can mix tiers per population — E5 for IT, security, legal, and executives (the accounts attackers actually target), E3 for everyone else. Licensing is per-user; uniformity is a habit, not a requirement.
+
+## The questions that pick your answer
+
+1. **Over 300 people, or will be soon?** Enterprise family. Done.
+2. **Under 300?** Start at Business Standard; move to Premium the moment you care about device management, Conditional Access, or phishing beyond the basics. (You care. See question 3.)
+3. **Handle client data, money, or regulated anything?** Then the security tier isn't optional — Business Premium or E3-with-security-add-ons is your floor.
+4. **Paying separately for phone systems, BI, or compliance tooling?** Price E5 against the pile before renewing either.
+5. **Lots of frontline staff?** Don't buy desk-worker licenses for people without desks — that's what F plans are for.
+
+And one meta-rule: **audit what you're already paying for before buying anything new.** Nearly every tenant contains a few surprises — licensed accounts of people who left, E5 features nobody turned on, [Entra ID P1 sitting unused in Business Premium](/articles/conditional-access-for-normal-humans/) like airbags still in the trunk. The cheapest license is the one you already own and finally switch on.
+
+## About prices (deliberately absent)
+
+You'll notice no dollar figures here. Prices change, vary by region and agreement, and any number we print becomes a small landmine within a year — check the current price list or your reseller quote. The *structure* above is what stays stable, and structure is what actually decides the choice. (One recent structural note: [Copilot is an add-on](/articles/rolling-out-copilot-without-the-chaos/) on top of nearly all of these plans, so it changes budgets without changing this map.)
+
+## The takeaway
+
+Size picks your family. Security appetite picks your tier. E5 is a consolidation play, not a status symbol. Frontline workers get frontline plans. And somewhere in your tenant right now, there is almost certainly a feature you're paying for that would solve a problem you're also paying to solve a second way — which makes a license audit the rare meeting that funds itself.

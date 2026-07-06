@@ -1,0 +1,15 @@
+---
+/** Topic chip with the brand node marker. Links to a taxonomy page. */
+interface Props {
+	href: string;
+	variant?: 'blue' | 'green' | 'red' | 'solid';
+}
+
+const { href, variant = 'blue' } = Astro.props;
+const variantClass = variant === 'blue' ? '' : `im-tag--${variant}`;
+---
+
+<a class:list={['im-tag', variantClass]} href={href}>
+	<span class="im-tag__node" aria-hidden="true"></span>
+	<slot />
+</a>

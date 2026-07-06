@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import { PLATFORMS } from '../../consts';
+import TaxonomyPage from '../../layouts/TaxonomyPage.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog', ({ data }) => !data.draft);
+	return Object.keys(PLATFORMS).map((platform) => ({
+		params: { platform },
+		props: {
+			posts: posts
+				.filter((p) => p.data.platforms.includes(platform))
+				.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+		},
+	}));
+}
+
+const { platform } = Astro.params;
+const { posts } = Astro.props;
+const info = PLATFORMS[platform!];
+---
+
+<TaxonomyPage eyebrow="Platform" heading={info.name} description={info.blurb} posts={posts} />

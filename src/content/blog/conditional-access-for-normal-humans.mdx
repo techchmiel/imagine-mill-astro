@@ -1,0 +1,77 @@
+---
+title: 'Conditional Access, explained for normal humans'
+description: 'The security feature that decides, every single sign-in, whether you get in easily, get challenged, or get blocked. Here''s the bouncer analogy that makes it click — and the first three policies every tenant needs.'
+pubDate: 2026-05-27
+platforms: ['security', 'microsoft-365']
+category: 'explainer'
+tags: ['conditional-access', 'mfa', 'identity', 'zero-trust']
+audience: 'admins'
+heroStyle: 1
+---
+import Callout from '../../components/Callout.astro';
+
+You sign in from your work laptop at the office: straight in. You sign in from a hotel lobby in another country: suddenly your phone wants a fingerprint. Same account, same password, different treatment.
+
+That's Conditional Access — and if you manage a Microsoft 365 tenant, it's the single highest-leverage security feature you have. It's also drowning in vocabulary ("signals," "grant controls," "assignments") that makes a fundamentally simple idea sound like a compliance seminar. Let's fix that.
+
+## The bouncer analogy
+
+Conditional Access is a bouncer standing at the door of every app, checking every sign-in against a set of house rules. Each rule is a plain **if-then statement**:
+
+> **If** this kind of sign-in is happening, **then** here's what it takes to get in.
+
+The bouncer considers the context — the *signals*:
+
+- **Who** is signing in? (An intern? A global admin? A service account?)
+- **From where?** (The office? A residential ISP? A country you've never operated in?)
+- **On what?** (A company-managed laptop? An unknown Android with a cracked screen?)
+- **Into what?** (The lunch menu? The payroll system?)
+
+And based on the rule, the bouncer picks a response: wave you through, ask for a second ID (multifactor authentication), require the device be company-managed, or simply say no.
+
+That's the entire mental model. Everything in the Entra admin portal is this sentence wearing formal clothes: *if this situation, then these requirements.*
+
+## Why this beats the old way
+
+Passwords are a terrible sole gatekeeper — they get phished, reused, and leaked in breaches you'll never hear about. The old fix was "MFA prompt for everything, always," which is secure-ish but teaches users to approve prompts on reflex. (Attackers know this; "MFA fatigue" attacks are literally just asking repeatedly until someone taps approve to make it stop.)
+
+Conditional Access is smarter: it applies friction **proportional to risk**. Familiar user, healthy managed device, usual location? Low risk, low friction. Right password but a strange country and an unmanaged device? That's exactly when you want the bouncer suspicious. Security you barely feel on a normal Tuesday is security people don't try to work around.
+
+One important honesty note: the bouncer checks credentials at the door — Conditional Access evaluates *after* the password (or better, passwordless factor) succeeds. It's your second line, not a substitute for phishing-resistant authentication.
+
+## The three rules every tenant should start with
+
+Microsoft ships policy templates for all of these, so this is less "build from scratch" and more "turn on thoughtfully":
+
+1. **Require MFA for administrators.** Admin accounts are the keys to everything; there is no scenario where they sign in with password alone. This is the closest thing security has to free money.
+2. **Block legacy authentication.** Ancient protocols (think decades-old mail clients) literally can't do MFA, which makes them the unlocked side door attackers check first. Block them and a startling share of password-spray attacks simply stop working.
+3. **Require MFA for everyone else.** Yes, everyone. Modern MFA — an app tap, or better yet passkeys/Windows Hello — is a small tax that buys down your single biggest risk: a stolen password being enough.
+
+<Callout type="danger" title="The break-glass rule">
+Before enabling anything: create one or two emergency-access accounts — strong credentials, stored somewhere very safe — and exclude them from every Conditional Access policy. A bad policy can lock out every admin including you, and the support ticket that follows is not a fun one. Every Microsoft deployment guide says this in bold. Now so do we.
+</Callout>
+
+## How not to lock everyone out
+
+Conditional Access has a rehearsal mode, and it's the feature that separates calm rollouts from war stories: **report-only mode**. The policy evaluates every sign-in and logs what it *would* have done — blocked, challenged, allowed — without actually doing it.
+
+The calm sequence:
+
+1. Build the policy from a template.
+2. Set it to report-only. Wait a week or two.
+3. Read the sign-in logs. Find the surprise. (There's always a surprise — a conference-room device, a service account, a printer with feelings.)
+4. Fix the exclusions, then flip it on.
+
+Also worth knowing: when multiple policies apply to one sign-in, **they all apply** — requirements stack, they don't compete. And there's a "What If" tool that answers "what happens if Maria signs in from her phone in Portugal?" before Maria does it.
+
+## What it costs and where it lives
+
+Conditional Access requires **Microsoft Entra ID P1**, which is included in Microsoft 365 Business Premium and the enterprise plans (E3 and up) — so many organizations already own it and just haven't turned it on, which is a little like buying a car with airbags shipped in the trunk. Risk-based policies (reacting automatically to leaked credentials or impossible-travel sign-ins) step up to P2 territory, included in E5.
+
+You'll find it all in the Entra admin center under Conditional Access — policies, templates, report-only mode, and the What If tool, all in one place.
+
+## The short version
+
+Conditional Access is an if-then bouncer for every sign-in: low friction for normal, high scrutiny for weird, hard no for dangerous. Start with the big three policies, rehearse in report-only, exclude your break-glass accounts, and you'll have done more for your organization's security in one afternoon than a year of "please use stronger passwords" emails ever achieved.
+
+The bouncer works every shift, never gets tired, and never gets charmed. Hire accordingly.

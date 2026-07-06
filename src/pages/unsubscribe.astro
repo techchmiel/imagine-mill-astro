@@ -1,0 +1,148 @@
+---
+import { FORMS_BASE, NEWSLETTER_FORM_KEY, SITE_TITLE } from '../consts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const endpoint = `${FORMS_BASE}/v1/forms/${NEWSLETTER_FORM_KEY}`;
+---
+
+<BaseLayout
+	title={`Unsubscribe — ${SITE_TITLE}`}
+	description="Leave the ImagineMill newsletter. No guilt trip, no hoops."
+>
+	<div class="im-container wrap">
+		<div class="card">
+			<span class="im-eyebrow">Newsletter</span>
+			<h1>Unsubscribe</h1>
+			<p>
+				Enter your email and you're off the list — effective immediately, no follow-up
+				"are you sure?" emails. (If you're just drowning in inbox generally, we understand.
+				It's why the newsletter is weekly.)
+			</p>
+			<form data-unsubscribe data-endpoint={endpoint}>
+				<label class="sr-only" for="unsub-email">Email address</label>
+				<input
+					class="im-input"
+					id="unsub-email"
+					name="email"
+					type="email"
+					required
+					placeholder="you@company.com"
+					autocomplete="email"
+				/>
+				<div class="hp" aria-hidden="true">
+					<label for="unsub-website">Website</label>
+					<input id="unsub-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+				</div>
+				<input type="hidden" name="ts" value="" />
+				<button class="im-btn im-btn--ink im-btn--md" type="submit">Unsubscribe</button>
+			</form>
+			<p class="error" hidden data-unsub-error>
+				That didn't go through — mind trying again in a moment?
+			</p>
+			<p class="done" hidden data-unsub-done>
+				Done — you're unsubscribed. If you ever miss us, <a href="/">the mill keeps turning</a>.
+			</p>
+		</div>
+	</div>
+</BaseLayout>
+
+<script>
+	const form = document.querySelector<HTMLFormElement>('form[data-unsubscribe]');
+	const tsField = form?.querySelector<HTMLInputElement>('input[name="ts"]');
+	if (tsField) tsField.value = String(Date.now());
+
+	// Support pre-filled links from email footers: /unsubscribe?email=a@b.com
+	const emailInput = form?.querySelector<HTMLInputElement>('input[name="email"]');
+	const fromQuery = new URLSearchParams(window.location.search).get('email');
+	if (emailInput && fromQuery) emailInput.value = fromQuery;
+
+	form?.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+		const errorEl = document.querySelector<HTMLElement>('[data-unsub-error]');
+		errorEl?.setAttribute('hidden', '');
+		if (button) {
+			button.disabled = true;
+			button.textContent = 'One moment…';
+		}
+		try {
+			const res = await fetch(form.dataset.endpoint ?? '', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					email: emailInput?.value ?? '',
+					website: form.querySelector<HTMLInputElement>('input[name="website"]')?.value ?? '',
+					ts: tsField?.value,
+					action: 'unsubscribe',
+				}),
+			});
+			const data = await res.json();
+			if (!res.ok || !data.ok) throw new Error(data.error ?? 'failed');
+			form.hidden = true;
+			document.querySelector<HTMLElement>('[data-unsub-done]')?.removeAttribute('hidden');
+		} catch {
+			errorEl?.removeAttribute('hidden');
+			if (button) {
+				button.disabled = false;
+				button.textContent = 'Unsubscribe';
+			}
+		}
+	});
+</script>
+
+<style>
+	.wrap {
+		display: flex;
+		justify-content: center;
+		padding-top: var(--space-20);
+		padding-bottom: var(--space-12);
+	}
+	.card {
+		max-width: 520px;
+		width: 100%;
+		background: var(--surface-card);
+		border: 1px solid var(--border-subtle);
+		border-radius: var(--radius-xl);
+		box-shadow: var(--shadow-md);
+		padding: var(--space-10);
+	}
+	h1 {
+		margin: var(--space-2) 0 var(--space-3);
+	}
+	p {
+		color: var(--text-muted);
+		font-size: var(--fs-body-sm);
+	}
+	form {
+		display: flex;
+		gap: 10px;
+		margin-top: var(--space-5);
+	}
+	input[type='email'] {
+		flex: 1;
+	}
+	.hp {
+		position: absolute;
+		left: -9999px;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+	.error {
+		color: var(--red-500);
+		margin: var(--space-4) 0 0;
+	}
+	.done {
+		color: var(--green-700);
+		font-weight: var(--fw-semibold);
+		margin: var(--space-4) 0 0;
+	}
+	@media (max-width: 560px) {
+		form {
+			flex-direction: column;
+		}
+		.card {
+			padding: var(--space-6);
+		}
+	}
+</style>

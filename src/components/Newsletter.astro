@@ -1,0 +1,143 @@
+---
+/**
+ * Newsletter band. Submits to the PortalSpark forms gateway
+ * (portalspark-forms repo), which upserts into a SharePoint list.
+ * Set PUBLIC_FORMS_BASE=http://localhost:8788 in .env for local dev.
+ */
+import { FORMS_BASE, NEWSLETTER_FORM_KEY } from '../consts';
+
+const endpoint = `${FORMS_BASE}/v1/forms/${NEWSLETTER_FORM_KEY}`;
+---
+
+<section class="im-circuit-bg newsletter">
+	<hr class="im-signal-rule" />
+	<h2>One clear email a week.</h2>
+	<p>
+		The best of ImagineMill — new guides, and the Microsoft 365 changes that actually matter. No
+		noise, no pressure, unsubscribe anytime.
+	</p>
+	<form data-newsletter data-endpoint={endpoint}>
+		<label class="sr-only" for="newsletter-email">Email address</label>
+		<input
+			class="im-input"
+			id="newsletter-email"
+			name="email"
+			type="email"
+			required
+			placeholder="you@company.com"
+			autocomplete="email"
+		/>
+		<!-- honeypot: humans never see it, bots can't resist it -->
+		<div class="hp" aria-hidden="true">
+			<label for="newsletter-website">Website</label>
+			<input id="newsletter-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+		</div>
+		<input type="hidden" name="ts" value="" />
+		<button class="im-btn im-btn--green im-btn--md" type="submit">Subscribe</button>
+	</form>
+	<p class="error" hidden data-newsletter-error>
+		That didn't go through — mind trying again in a moment?
+	</p>
+	<p class="thanks" hidden data-newsletter-thanks>
+		Lovely — you're on the list. Talk soon.
+	</p>
+</section>
+<script>
+	document.querySelectorAll<HTMLFormElement>('form[data-newsletter]').forEach((form) => {
+		const tsField = form.querySelector<HTMLInputElement>('input[name="ts"]');
+		if (tsField) tsField.value = String(Date.now());
+
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			const section = form.parentElement;
+			const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+			const errorEl = section?.querySelector<HTMLElement>('[data-newsletter-error]');
+			errorEl?.setAttribute('hidden', '');
+			if (button) {
+				button.disabled = true;
+				button.textContent = 'Subscribing…';
+			}
+			try {
+				const res = await fetch(form.dataset.endpoint ?? '', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						email: form.querySelector<HTMLInputElement>('input[name="email"]')?.value ?? '',
+						website: form.querySelector<HTMLInputElement>('input[name="website"]')?.value ?? '',
+						ts: tsField?.value,
+						action: 'subscribe',
+					}),
+				});
+				const data = await res.json();
+				if (!res.ok || !data.ok) throw new Error(data.error ?? 'Subscription failed');
+				form.hidden = true;
+				section?.querySelector<HTMLElement>('[data-newsletter-thanks]')?.removeAttribute('hidden');
+			} catch {
+				errorEl?.removeAttribute('hidden');
+				if (button) {
+					button.disabled = false;
+					button.textContent = 'Subscribe';
+				}
+			}
+		});
+	});
+</script>
+<style>
+	.newsletter {
+		border-radius: var(--radius-2xl);
+		padding: var(--space-12) var(--space-10);
+		text-align: center;
+		color: var(--text-on-navy);
+	}
+	.im-signal-rule {
+		width: 60px;
+		margin: 0 auto var(--space-5);
+	}
+	h2 {
+		color: #fff;
+		font-size: 32px;
+		margin: 0 0 var(--space-3);
+	}
+	p {
+		color: var(--text-on-navy-muted);
+		max-width: 46ch;
+		margin: 0 auto var(--space-6);
+		font-size: 17px;
+	}
+	form {
+		display: flex;
+		gap: 10px;
+		max-width: 440px;
+		margin: 0 auto;
+	}
+	input[type='email'] {
+		flex: 1;
+	}
+	.hp {
+		position: absolute;
+		left: -9999px;
+		top: auto;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+	.error {
+		color: var(--red-300);
+		font-size: var(--fs-body-sm);
+		margin: var(--space-4) auto 0;
+	}
+	.thanks {
+		color: var(--green-300);
+		font-weight: var(--fw-semibold);
+		margin-bottom: 0;
+	}
+	@media (max-width: 560px) {
+		.newsletter {
+			padding: var(--space-10) var(--space-5);
+			border-radius: var(--radius-xl);
+		}
+		form {
+			flex-direction: column;
+		}
+	}
+</style>

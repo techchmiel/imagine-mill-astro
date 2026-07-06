@@ -1,0 +1,62 @@
+---
+title: 'Azure vs. Microsoft 365: what''s actually the difference?'
+description: 'They''re both "the cloud," they''re both Microsoft, and one invoice is nothing like the other. The apartment-vs-empty-lot analogy that finally separates them — and the one place they genuinely overlap.'
+pubDate: 2026-04-29
+platforms: ['azure', 'microsoft-365']
+category: 'explainer'
+tags: ['cloud-fundamentals', 'azure', 'entra-id']
+audience: 'everyone'
+heroStyle: 0
+---
+import Callout from '../../components/Callout.astro';
+
+At some point in every cloud conversation, someone says "we're moving it to Azure" and someone else nods while privately thinking *isn't that where our email already is?* This article is for the second person — who is, statistically, most of the room.
+
+The confusion is fair. Both are Microsoft. Both are "the cloud." Both show up in budget meetings. But they're different products for different jobs, bought in different ways, and mixing them up leads to genuinely expensive misunderstandings.
+
+## The renting analogy
+
+**Microsoft 365 is a furnished apartment.** You move in and everything works: email (Exchange), file storage (OneDrive and SharePoint), meeting rooms (Teams), the office suite itself. You pay a flat rate per person per month, Microsoft handles the plumbing and the maintenance, and you don't get to relocate the kitchen. It's software, finished and ready — what the industry calls *SaaS* (software as a service).
+
+**Azure is an empty lot with every utility imaginable.** Power, water, fiber, cranes, prefab components — and beyond raw infrastructure, a catalog of managed building blocks: databases, AI services, app hosting. You can build anything from a shed to a skyscraper. But *you're* the builder: you decide what goes up, you assemble it, and you pay for what you use — by the hour, by the gigabyte, by the million requests. It's a metered utility, not a subscription.
+
+That billing difference is the tell. A Microsoft 365 invoice reads like rent: *n* people × plan price. An Azure invoice reads like a utility bill after a strange month — line items for compute hours, storage, and data transfer that require someone to actually manage them. (Entire job titles exist for this. "Cloud cost optimization" is a career now.)
+
+## Who uses which, day to day
+
+Everyone in your company touches Microsoft 365 — it *is* the workday: Outlook, Teams, Word, Excel, the files.
+
+Azure, by contrast, is mostly touched by builders: developers hosting the company's customer-facing app, IT running that stubborn legacy accounting system on a cloud VM instead of the server closet, data folks building warehouses and dashboards, and anyone wiring AI into a product. If your org has no one building or hosting anything custom, you might use barely any Azure at all — and that's completely normal.
+
+| Question | Microsoft 365 | Azure |
+| --- | --- | --- |
+| What is it? | Finished workplace apps | Building blocks for anything |
+| Who uses it? | Every employee, daily | Developers, IT, data teams |
+| How's it priced? | Per user, per month | Pay for what you use |
+| Typical decision | "Which plan tier?" | "Which architecture?" |
+| When it goes wrong | Someone can't find a file | Someone left a VM running since March |
+
+## The one place they genuinely overlap
+
+Here's the wrinkle that earns this article its keep: **both products share the same identity system — Microsoft Entra ID** (which you may still know by its former name, Azure Active Directory).
+
+Every Microsoft 365 tenant gets an Entra ID directory automatically; it's where your user accounts, groups, and sign-in rules live. And that *same* directory can control access to Azure resources, custom apps, and thousands of third-party services. When your admin sets up [Conditional Access rules](/articles/conditional-access-for-normal-humans/), that's Entra — the shared foundation under both houses.
+
+So when someone says "it's in Azure," they might mean *we host it on Azure infrastructure* (the empty lot), or they might loosely mean *it's tied to our Microsoft identity platform* (which every Microsoft 365 customer already has). One clarifying question — "do you mean we're hosting something there, or just signing in through it?" — will regularly make you the most useful person in the meeting.
+
+<Callout type="info" title="Why the names tangle">
+Microsoft renamed Azure Active Directory to Microsoft Entra ID in 2023, partly to untangle exactly this confusion — the identity service was never really "part of Azure the hosting platform." Old habits (and old documentation) die slowly, so you'll hear both names for years yet.
+</Callout>
+
+## Translating common sentences
+
+- *"We're a Microsoft 365 shop."* → Our email, files, and collaboration run on Microsoft's finished apps. Nearly every org with Teams says this.
+- *"We're migrating the ERP to Azure."* → That system currently runs on our own servers; we're rebuilding or rehosting it on Microsoft's infrastructure. This is a project with architects and a budget line.
+- *"Copilot uses Azure OpenAI."* → The AI features inside your Microsoft 365 apps are themselves built on Azure's AI services. Microsoft is its own biggest customer — the furnished apartment is built on the empty lot.
+- *"It's all in the cloud."* → Ask the clarifying question. Smile while doing it.
+
+## The takeaway
+
+Microsoft 365 is the work apps you rent, finished and per-person. Azure is the infrastructure and building blocks you assemble and meter. They share one identity foundation (Entra ID), which is the only place a normal person needs to think about both at once.
+
+And the next time someone nods along to "we're moving it to Azure" — well, now you can be the one who asks which "it," and watches the meeting quietly reorganize itself around the answer.

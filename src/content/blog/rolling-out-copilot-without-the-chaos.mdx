@@ -1,0 +1,91 @@
+---
+title: 'Rolling out Microsoft 365 Copilot without the chaos'
+description: 'Copilot is easy to buy and surprisingly easy to regret. Here''s the rollout plan that skips the panic phase: what it can see, who should get it first, and the cleanup to do before anyone types a prompt.'
+pubDate: 2026-07-01
+platforms: ['copilot', 'microsoft-365']
+category: 'strategy'
+tags: ['copilot', 'ai-adoption', 'governance', 'oversharing', 'licensing']
+audience: 'leaders'
+featured: true
+heroStyle: 0
+---
+import Callout from '../../components/Callout.astro';
+
+Somewhere right now, an executive is coming back from a conference with one sentence ready: "We need Copilot." And somewhere nearby, an IT lead is quietly opening a browser tab to figure out what that actually involves.
+
+This guide is for both of you. Rolling out Microsoft 365 Copilot is genuinely worth doing — but the difference between "transformative" and "expensive chat window" comes down to what you do *before* the licenses land.
+
+## What Copilot actually is (and isn't)
+
+Microsoft 365 Copilot is an AI assistant wired into the apps your people already live in — Word, Excel, Outlook, Teams, PowerPoint. It drafts documents, summarizes the meeting you skipped, digs answers out of last quarter's files, and turns "I have 400 unread emails" into a five-line briefing.
+
+The part everyone misses: Copilot doesn't know things. It *finds* things. It works from your organization's own data — your files, your email, your chats — through something Microsoft calls the Microsoft Graph. When you ask "what did we decide about the Henderson contract?", it's searching the content you already have access to and reasoning over what it finds.
+
+Read that again: **the content you already have access to**. That sentence is the entire rollout plan, and most of the chaos.
+
+## The oversharing problem, or: Copilot as a very fast intern
+
+Here's the uncomfortable truth about most Microsoft 365 tenants: permissions are messier than anyone admits. There's a SharePoint site from 2019 shared with "Everyone except external users." There's a salary spreadsheet in a folder that inherited permissions from a site nobody remembers configuring. Nothing bad happened, because finding those files required either dedication or luck.
+
+Copilot removes the "dedication or luck" requirement. It is, functionally, a brilliant intern with photographic memory who read everything your account can open — and answers instantly, in a chat window, without judgment.
+
+So when someone asks Copilot "what are people paid around here?" and it politely summarizes that spreadsheet — Copilot didn't break your security. It *revealed* it.
+
+<Callout type="warning" title="Before the pilot, not after">
+Run an access review before the first license is assigned. SharePoint Advanced Management and Microsoft Purview both have reports that surface overshared sites and sensitive content. "We'll tighten permissions later" becomes "we're explaining this to legal" remarkably fast.
+</Callout>
+
+The pre-flight checklist, in priority order:
+
+1. **Find the overshared sites.** Look for anything shared with "Everyone" or org-wide groups, and site owners who left the company.
+2. **Label what's sensitive.** Sensitivity labels (Confidential, Internal, Public) aren't just decoration — Copilot respects them, and they're your safety rail.
+3. **Kill the zombie sites.** That abandoned project site isn't just clutter anymore; it's now searchable, summarizable context. Archive or delete.
+4. **Check external sharing defaults.** While you're in there. You'll find something. Everyone does.
+
+## Licensing, in plain terms
+
+Copilot is an **add-on license** on top of an existing Microsoft 365 plan — and the list of eligible base plans is broad: the Business plans (Basic, Standard, Premium), the Enterprise plans (E3, E5), frontline plans, and more. You buy it per user, per month, on top of what those users already have.
+
+Two things worth knowing before the budget meeting:
+
+- **Copilot Chat is already included** with most Microsoft 365 licenses at no extra cost. It's the web-grounded chat experience — genuinely useful, but it doesn't reach into your files, email, and meetings the way the full add-on does. It's a decent way to build prompt-writing habits before you spend real money.
+- **You don't have to license everyone.** This isn't like Exchange, where a mailbox is a mailbox. Copilot value varies wildly by role, which brings us to the pilot.
+
+## Pick pilots like you mean it
+
+The classic mistake: give the first 25 licenses to executives and IT. Executives don't have time to build new habits, and IT will test the security and then go back to PowerShell. Six months later, the usage report is grim and the renewal conversation is awkward.
+
+Instead, pick people who are **drowning in exactly the work Copilot is good at**:
+
+| Role | Why they'll actually use it |
+| --- | --- |
+| Anyone who writes recurring reports | Drafting from existing docs is Copilot's best trick |
+| Meeting-heavy project managers | Recap, action items, "what did I miss" — daily wins |
+| Sales and proposal writers | First drafts from old proposals, fast |
+| The person who answers "where is that file" | Copilot becomes them, at scale |
+
+Add one enthusiastic skeptic. Their eventual "okay, fine, it's useful" is worth ten pre-sold fans in the adoption deck.
+
+## The 90-day shape
+
+**Days 0–30: pilot quietly.** 20–50 licenses, a Teams channel for wins and faceplants, and one ask: use it every day for two weeks, even when it would be faster not to. Habit first, judgment second.
+
+**Days 30–60: measure something honest.** Not "prompts sent" — that measures curiosity, not value. Ask pilots: what did you stop doing? What used to take an hour that now takes ten minutes? Collect specific stories; they're your business case and your training material.
+
+**Days 60–90: expand on evidence.** Roll out by role, not by org chart. Every new wave gets the two things the data says matter: a 30-minute hands-on session with *their team's* real scenarios, and a place to ask questions where someone actually answers.
+
+<Callout type="tip" title="The one training rule">
+Teach people to ask Copilot for a first draft, never a final one. The teams that thrive treat it like a sharp junior colleague: fast, tireless, occasionally confidently wrong, always worth reviewing.
+</Callout>
+
+## What "success" looks like
+
+Not magic. The honest version of a good Copilot rollout is quieter: meeting recaps nobody had to write, first drafts that arrive before the coffee does, fewer "does anyone have the latest version?" messages. Multiply thirty minutes a day by everyone who writes for a living, and the license fee stops being the interesting number.
+
+The chaos version is also predictable: licenses bought in bulk, permissions unexamined, no training, and a very quiet renewal meeting.
+
+The difference was never the technology. It was the six weeks of unglamorous preparation — which, conveniently, you now have a checklist for.
+
+---
+
+*Next up: wondering whether your files are even in the right place for any of this? Start with [SharePoint or OneDrive? A decision map](/articles/sharepoint-or-onedrive-a-decision-map/).*

@@ -1,0 +1,140 @@
+---
+/**
+ * Brand placeholder art: the circuit-node motif drawn over a gradient,
+ * generated deterministically from a seed (usually the post slug) so
+ * every article gets its own stable artwork. No stock photos — the
+ * design system's media direction is "gradient + circuit grid".
+ */
+interface Props {
+	seed: string;
+	/** 0–5 picks the background register; defaults from the seed. */
+	style?: number;
+	class?: string;
+}
+
+const { seed, style, class: className } = Astro.props;
+
+// Small deterministic hash → pseudo-random stream
+function hash(str: string): number {
+	let h = 2166136261;
+	for (let i = 0; i < str.length; i++) {
+		h ^= str.charCodeAt(i);
+		h = Math.imul(h, 16777619);
+	}
+	return h >>> 0;
+}
+let state = hash(seed);
+function rand(): number {
+	// xorshift32
+	state ^= state << 13;
+	state ^= state >>> 17;
+	state ^= state << 5;
+	state >>>= 0;
+	return state / 4294967296;
+}
+function pick<T>(arr: T[]): T {
+	return arr[Math.floor(rand() * arr.length)];
+}
+
+const variant = style ?? hash(seed + '·') % 6;
+
+// Background registers (light text/graphics on 0–2 & 5, navy graphics on 3–4)
+const backgrounds = [
+	{ from: '#1080C0', to: '#38B0E8', dark: true }, // screen gradient
+	{ from: '#101840', to: '#0a0f2e', dark: true }, // ink
+	{ from: '#0f74b4', to: '#78C040', dark: true }, // blue → green
+	{ from: '#d3edfb', to: '#ecf8fe', dark: false }, // soft wash
+	{ from: '#e5e8f5', to: '#ecf8fe', dark: false }, // navy-tint wash
+	{ from: '#1a2456', to: '#101840', dark: true }, // deep navy
+];
+const bg = backgrounds[variant];
+
+const lineColor = bg.dark ? 'rgba(255,255,255,0.85)' : '#101840';
+const gridColor = bg.dark ? 'rgba(255,255,255,0.10)' : 'rgba(16,24,64,0.08)';
+const nodeColors = bg.dark
+	? ['#78C040', '#ffffff', '#38B0E8', '#B82028']
+	: ['#78C040', '#1E96D8', '#101840', '#B82028'];
+
+// Build 2–3 orthogonal circuit traces with nodes at the bends.
+const W = 640;
+const H = 360;
+const gridSize = 40;
+type Node = { x: number; y: number; c: string; filled: boolean; s: number };
+const traces: string[] = [];
+const nodes: Node[] = [];
+const traceCount = 2 + (hash(seed + 't') % 2);
+for (let t = 0; t < traceCount; t++) {
+	let x = gridSize * (2 + Math.floor(rand() * 4));
+	let y = gridSize * (2 + Math.floor(rand() * 5));
+	const pts = [[x, y]];
+	const segs = 3 + Math.floor(rand() * 3);
+	let horizontal = rand() > 0.5;
+	for (let s = 0; s < segs; s++) {
+		const len = gridSize * (2 + Math.floor(rand() * 4));
+		if (horizontal) x = Math.min(W - gridSize, x + len);
+		else y = rand() > 0.5 ? Math.min(H - gridSize, y + len) : Math.max(gridSize, y - len);
+		pts.push([x, y]);
+		horizontal = !horizontal;
+	}
+	traces.push(pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p[0]} ${p[1]}`).join(' '));
+	// node at each end + one mid bend
+	const ends = [pts[0], pts[pts.length - 1], pts[Math.floor(pts.length / 2)]];
+	for (const [nx, ny] of ends) {
+		nodes.push({ x: nx, y: ny, c: pick(nodeColors), filled: rand() > 0.45, s: 10 + Math.floor(rand() * 8) });
+	}
+}
+
+const gradId = `g-${hash(seed).toString(36)}`;
+---
+
+<svg
+	class:list={['gradient-art', className]}
+	viewBox={`0 0 ${W} ${H}`}
+	preserveAspectRatio="xMidYMid slice"
+	role="img"
+	aria-hidden="true"
+>
+	<defs>
+		<linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
+			<stop offset="0" stop-color={bg.from}></stop>
+			<stop offset="1" stop-color={bg.to}></stop>
+		</linearGradient>
+	</defs>
+	<rect width={W} height={H} fill={`url(#${gradId})`}></rect>
+	{
+		Array.from({ length: Math.floor(W / gridSize) - 1 }, (_, i) => (
+			<line x1={(i + 1) * gridSize} y1="0" x2={(i + 1) * gridSize} y2={H} stroke={gridColor} stroke-width="1" />
+		))
+	}
+	{
+		Array.from({ length: Math.floor(H / gridSize) - 1 }, (_, i) => (
+			<line x1="0" y1={(i + 1) * gridSize} x2={W} y2={(i + 1) * gridSize} stroke={gridColor} stroke-width="1" />
+		))
+	}
+	{
+		traces.map((d) => (
+			<path d={d} fill="none" stroke={lineColor} stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.75" />
+		))
+	}
+	{
+		nodes.map((n) => (
+			<rect
+				x={n.x - n.s / 2}
+				y={n.y - n.s / 2}
+				width={n.s}
+				height={n.s}
+				rx={Math.max(3, n.s * 0.32)}
+				fill={n.filled ? n.c : bg.dark ? 'rgba(16,24,64,0.35)' : '#ffffff'}
+				stroke={n.c}
+				stroke-width="3"
+			/>
+		))
+	}
+</svg>
+<style>
+	.gradient-art {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+</style>

@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import { CATEGORIES } from '../../consts';
+import TaxonomyPage from '../../layouts/TaxonomyPage.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog', ({ data }) => !data.draft);
+	return Object.keys(CATEGORIES).map((category) => ({
+		params: { category },
+		props: {
+			posts: posts
+				.filter((p) => p.data.category === category)
+				.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+		},
+	}));
+}
+
+const { category } = Astro.params;
+const { posts } = Astro.props;
+const info = CATEGORIES[category!];
+---
+
+<TaxonomyPage eyebrow="Article type" heading={info.name} description={info.blurb} posts={posts} />

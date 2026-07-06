@@ -1,0 +1,82 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PostCard from '../components/PostCard.astro';
+import { SITE_TITLE } from '../consts';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+	eyebrow: string;
+	heading: string;
+	description: string;
+	posts: CollectionEntry<'blog'>[];
+}
+
+const { eyebrow, heading, description, posts } = Astro.props;
+---
+
+<BaseLayout title={`${heading} — ${SITE_TITLE}`} description={description}>
+	<div class="band">
+		<div class="im-container">
+			<span class="im-eyebrow">{eyebrow}</span>
+			<h1>{heading}</h1>
+			<p>{description}</p>
+		</div>
+	</div>
+	<div class="im-container">
+		<p class="count">
+			{posts.length} {posts.length === 1 ? 'article' : 'articles'}
+		</p>
+		<div class="grid">
+			{posts.map((post) => <PostCard post={post} />)}
+		</div>
+		<p class="back"><a href="/topics/">← Browse all topics</a></p>
+	</div>
+</BaseLayout>
+<style>
+	.band {
+		background: var(--gradient-screen-soft);
+		border-bottom: 1px solid var(--blue-100);
+		padding: var(--space-12) 0 var(--space-10);
+	}
+	.band h1 {
+		margin: var(--space-3) 0 var(--space-3);
+	}
+	.band p {
+		color: var(--text-body);
+		font-size: var(--fs-body-lg);
+		max-width: 56ch;
+		margin: 0;
+	}
+	.count {
+		font-family: var(--font-display);
+		font-size: var(--fs-caption);
+		letter-spacing: var(--ls-wider);
+		text-transform: uppercase;
+		color: var(--text-faint);
+		margin: var(--space-8) 0 var(--space-4);
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--space-6);
+	}
+	.back {
+		margin-top: var(--space-10);
+	}
+	.back a {
+		font-family: var(--font-display);
+		font-weight: var(--fw-semibold);
+		font-size: var(--fs-body-sm);
+		letter-spacing: var(--ls-wide);
+	}
+	@media (max-width: 960px) {
+		.grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@media (max-width: 620px) {
+		.grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

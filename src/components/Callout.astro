@@ -1,0 +1,45 @@
+---
+/**
+ * Note box for tutorials and explainers. Use inside MDX:
+ *   import Callout from '../../components/Callout.astro';
+ *   <Callout type="tip" title="Shortcut">…</Callout>
+ */
+interface Props {
+	type?: 'tip' | 'info' | 'warning' | 'danger';
+	title?: string;
+}
+
+const { type = 'info', title } = Astro.props;
+
+const icons: Record<string, string> = {
+	tip: 'M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.4 1 2.3h6c0-.9.4-1.8 1-2.3A7 7 0 0 0 12 2z',
+	info: 'M12 16v-4M12 8h.01M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z',
+	warning: 'M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z',
+	danger: 'M12 8v4M12 16h.01M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z',
+};
+const defaultTitles: Record<string, string> = {
+	tip: 'Tip',
+	info: 'Good to know',
+	warning: 'Watch out',
+	danger: 'Careful',
+};
+---
+
+<aside class:list={['im-callout', `im-callout--${type}`]}>
+	<span class="im-callout__icon" aria-hidden="true">
+		<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+			<path d={icons[type]}></path>
+		</svg>
+	</span>
+	<div class="im-callout__content">
+		<p class="im-callout__title">{title ?? defaultTitles[type]}</p>
+		<div class="im-callout__body">
+			<slot />
+		</div>
+	</div>
+</aside>
+<style>
+	aside {
+		margin: 1.6em 0;
+	}
+</style>

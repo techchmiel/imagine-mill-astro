@@ -1,0 +1,74 @@
+---
+title: 'Your first Power Automate flow: reclaim an hour a week by Friday'
+description: 'No code, no consultants, no six-month "automation initiative." Just one genuinely useful flow — email attachments filing themselves into SharePoint — built step by step, plus the habits that keep flows from becoming haunted.'
+pubDate: 2026-05-13
+platforms: ['power-platform', 'microsoft-365']
+category: 'how-to'
+tags: ['automation', 'power-automate', 'productivity']
+audience: 'power-users'
+heroStyle: 4
+---
+import Callout from '../../components/Callout.astro';
+
+There's a particular kind of work that nobody's job description mentions but everybody's calendar pays for: moving information from one place to another place. Saving the attachment. Posting the reminder. Copying the form response into the tracker. Each instance takes ninety seconds; collectively they're why it's somehow 4pm.
+
+Power Automate exists to eat that work, it's almost certainly already included in your Microsoft 365 license, and you can build your first genuinely useful flow before your next coffee refill. Let's do it — actually do it, not "learn the concepts."
+
+## The idea in one sentence
+
+A flow is a recipe with two parts: a **trigger** ("when this happens…") and one or more **actions** ("…do these things"). That's it. Everything else — conditions, loops, approvals — is seasoning on that sentence.
+
+Some trigger-action pairs doing quiet heroic work in real organizations:
+
+- *When an email with attachments arrives from the scanner* → save the files to SharePoint.
+- *When someone submits the intake form* → add a row to the tracker and post to the team channel.
+- *When a file is added to the Contracts library* → start an approval and email the result.
+- *Every Friday at 3pm* → remind the channel to submit timesheets, so a human never has to be the timesheet person again.
+
+## Build it: attachments that file themselves
+
+Our target: every invoice email that lands in your inbox gets its attachments saved to a SharePoint folder automatically. Small, real, and the pattern generalizes to half the flows you'll ever build.
+
+**1. Open the workshop.** Go to [make.powerautomate.com](https://make.powerautomate.com) and sign in with your work account. Click **Create** → **Automated cloud flow**.
+
+**2. Name it honestly.** "Save invoice attachments to SharePoint." Six months from now, "New flow (3)" tells you nothing, and Future You is once again the customer.
+
+**3. Pick the trigger.** Search for and select **"When a new email arrives (V3)"** from the Office 365 Outlook connector. You'll authenticate to your own mailbox — flows run as you, with your permissions, which is worth remembering later.
+
+**4. Make the trigger picky.** Expand the advanced options and narrow it down: set **Importance/From** filters as fits (say, `invoices@yourvendor.com`), and set **Only with Attachments** to *Yes*. A trigger that fires on *every* email is how you end up with a folder containing nine hundred email signature logos. Ask us how we know.
+
+**5. Add the action.** Click **New step**, search for **"Create file"** (SharePoint connector). Point it at your site and folder. For **File Name**, click into the field and choose the dynamic content **Attachments Name**; for **File Content**, choose **Attachments Content**.
+
+**6. Accept the loop.** Power Automate will notice an email can carry several attachments and wrap your action in an **Apply to each** automatically. This moment startles everyone. It's fine; it's correct; move along.
+
+**7. Test it.** Save, click **Test** → manually, then send yourself a matching email with an attachment. Watch the run: green checkmarks, and the file appears in SharePoint. That flicker of delight you just felt is the entire Power Platform business model.
+
+```text
+Trigger:  When a new email arrives (from: invoices@vendor.com, has attachments)
+   └── Apply to each attachment
+          └── Create file in SharePoint (/Finance/Invoices)
+```
+
+<Callout type="tip" title="Steal, don't craft">
+Power Automate ships hundreds of templates — pre-built flows for exactly these scenarios. Browse Templates, find one close to your need, and edit. Professionals steal; it's called "leveraging existing assets."
+</Callout>
+
+## The three habits that keep flows from becoming haunted
+
+Flows are easy to build, which means they're easy to over-build. Three habits separate tidy automation from the tenant where nobody knows why the CFO gets a cat fact every morning:
+
+**1. Automate what's already boring and stable.** The best candidates are processes you've done manually, identically, at least a dozen times. If the process is still changing weekly, automating it just makes the chaos faster.
+
+**2. Plan for the failure email.** Flows fail — a connection expires, a folder gets renamed, a colleague "improves" the form. You'll get a failure notification; read it. For anything a team depends on, check the run history occasionally, and consider a co-owner so the flow doesn't retire the day you do.
+
+**3. Mind the ownership.** A flow runs with the permissions of the account that owns it, and a business-critical flow owned by someone's personal account is [the OneDrive problem](/articles/sharepoint-or-onedrive-a-decision-map/) wearing a lab coat. When a flow graduates from "my convenience" to "how the team works," move it to shared ownership — the same two-week rule applies to automation.
+
+## What it costs (probably nothing)
+
+The standard connectors — Outlook, SharePoint, Teams, Forms, OneDrive, all the ones in this article — are included with Microsoft 365 business and enterprise plans. Premium connectors (SQL, Salesforce, HTTP calls, and friends) need standalone Power Automate licensing, but by the time you need those you'll know, and you'll have a dozen shipped flows as negotiating leverage with whoever owns the budget.
+
+## Your homework
+
+One flow, this week: either the attachment-saver above with your own folders, or the Friday-reminder flow (trigger: **Recurrence**; action: **Post message in a chat or channel** — two steps, five minutes, and the timesheet nagging is now the robot's job).
+
+Automation in most organizations doesn't arrive as a grand initiative. It arrives as one person quietly deciding they'd rather not do the same ninety-second task nine hundred more times — and then their teammates asking how. Be the how.

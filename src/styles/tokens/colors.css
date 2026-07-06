@@ -1,0 +1,115 @@
+/* ============================================================
+   ImagineMill · Color Tokens
+   Palette sampled directly from the brand logo.
+   Navy ink · circuit-blue gradient · signal green · signal red
+   ============================================================ */
+:root {
+  /* ---- Brand ramps -------------------------------------- */
+
+  /* Navy — the logo's monitor body. The brand's ink & anchor. */
+  --navy-900: #0a0f2e;
+  --navy-800: #101840;   /* ← core brand navy (logo) */
+  --navy-700: #1a2456;
+  --navy-600: #26326e;
+  --navy-500: #37458a;
+  --navy-400: #5b69ad;
+  --navy-300: #8b96c9;
+  --navy-200: #c1c8e4;
+  --navy-100: #e5e8f5;
+
+  /* Circuit blue — the logo's glowing screen gradient. */
+  --blue-900: #0a5c94;
+  --blue-800: #0f74b4;
+  --blue-700: #1080c0;   /* gradient start (deep) */
+  --blue-600: #1888c8;
+  --blue-500: #1e96d8;   /* ← core brand blue */
+  --blue-400: #2ba6e2;
+  --blue-300: #38b0e8;   /* gradient end (bright) */
+  --blue-200: #8fd4f2;
+  --blue-100: #d3edfb;
+  --blue-050: #ecf8fe;
+
+  /* Signal green — the logo's circuit nodes. Growth / go / success. */
+  --green-700: #4f8a1e;
+  --green-600: #63a52d;
+  --green-500: #78c040;   /* ← core brand green (logo) */
+  --green-400: #93cf66;
+  --green-300: #b6e096;
+  --green-200: #d8efc4;
+  --green-100: #eef8e3;
+
+  /* Signal red — the logo's tagline & circuit accents. Alert / emphasis. */
+  --red-700: #8f171d;
+  --red-600: #a81c23;
+  --red-500: #b82028;   /* ← core brand red (logo) */
+  --red-400: #d0454c;
+  --red-300: #e28288;
+  --red-200: #f0bfc2;
+  --red-100: #fae6e7;
+
+  /* Neutrals — warm-cool grays tuned toward the navy. */
+  --white:    #ffffff;
+  --gray-050: #f6f8fb;
+  --gray-100: #eef1f6;
+  --gray-200: #e0e5ee;
+  --gray-300: #cbd2e0;
+  --gray-400: #a4adc2;
+  --gray-500: #7681a0;
+  --gray-600: #565f7a;
+  --gray-700: #3d445c;
+  --gray-800: #262c40;
+  --gray-900: #151a29;
+
+  /* ---- Semantic aliases -------------------------------- */
+
+  /* Backgrounds & surfaces */
+  --bg-page:        var(--gray-050);
+  --bg-page-tint:   var(--blue-050);   /* soft blue wash (logo backdrop) */
+  --surface-card:   var(--white);
+  --surface-sunken: var(--gray-100);
+  --surface-navy:   var(--navy-800);   /* dark inverted surface */
+  --surface-navy-2: var(--navy-900);
+
+  /* Text */
+  --text-strong:    var(--navy-800);
+  --text-body:      var(--gray-700);
+  --text-muted:     var(--gray-500);
+  --text-faint:     var(--gray-400);
+  --text-on-navy:   #eaf1fb;
+  --text-on-navy-muted: #9aa6cc;
+  --text-link:      var(--blue-600);
+
+  /* Brand actions */
+  --brand-primary:      var(--blue-500);
+  --brand-primary-hover:var(--blue-600);
+  --brand-primary-press:var(--blue-700);
+  --brand-ink:          var(--navy-800);
+  --brand-ink-hover:    var(--navy-700);
+
+  /* Accents */
+  --accent-green: var(--green-500);
+  --accent-red:   var(--red-500);
+
+  /* Status */
+  --status-success: var(--green-600);
+  --status-success-bg: var(--green-100);
+  --status-danger:  var(--red-500);
+  --status-danger-bg: var(--red-100);
+  --status-info:    var(--blue-500);
+  --status-info-bg: var(--blue-100);
+  --status-warn:    #d98a1e;
+  --status-warn-bg: #fbeed3;
+
+  /* Borders & lines */
+  --border-subtle: var(--gray-200);
+  --border-default:var(--gray-300);
+  --border-strong: var(--navy-800);
+  --border-focus:  var(--blue-400);
+
+  /* Signature gradient — the logo screen, reusable as a brand wash */
+  --gradient-screen: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-300) 100%);
+  --gradient-screen-soft: linear-gradient(135deg, var(--blue-100) 0%, var(--blue-050) 100%);
+  --gradient-ink: linear-gradient(150deg, var(--navy-800) 0%, var(--navy-900) 100%);
+  /* the three signal dots, as a hairline rule */
+  --gradient-signal: linear-gradient(90deg, var(--green-500) 0%, var(--blue-500) 50%, var(--red-500) 100%);
+}

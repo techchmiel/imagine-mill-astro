@@ -1,0 +1,156 @@
+---
+import { getCollection } from 'astro:content';
+import TagChip from '../../components/TagChip.astro';
+import { CATEGORIES, PLATFORMS, SITE_TITLE } from '../../consts';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+const platformCount = (slug: string) => posts.filter((p) => p.data.platforms.includes(slug)).length;
+const categoryCount = (slug: string) => posts.filter((p) => p.data.category === slug).length;
+
+const tagCounts = new Map<string, number>();
+for (const p of posts) {
+	for (const t of p.data.tags) tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
+}
+const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+const chipVariants = ['blue', 'green', 'red'] as const;
+---
+
+<BaseLayout
+	title={`Topics — ${SITE_TITLE}`}
+	description="Browse ImagineMill by platform, article type, or tag."
+>
+	<div class="im-container">
+		<header class="page-head">
+			<hr class="im-signal-rule" />
+			<h1>Browse by topic</h1>
+			<p>Three ways in: the platform you're wrangling, the kind of read you want, or a straight tag.</p>
+		</header>
+
+		<h2>Platforms</h2>
+		<div class="cards">
+			{
+				Object.entries(PLATFORMS).map(([slug, p]) => (
+					<a class="topic-card" href={`/platforms/${slug}/`}>
+						<span class="topic-name">{p.name}</span>
+						<span class="topic-blurb">{p.blurb}</span>
+						<span class="topic-count">
+							{platformCount(slug)} {platformCount(slug) === 1 ? 'article' : 'articles'} →
+						</span>
+					</a>
+				))
+			}
+		</div>
+
+		<h2>Article types</h2>
+		<div class="cards">
+			{
+				Object.entries(CATEGORIES).map(([slug, c]) => (
+					<a class="topic-card" href={`/categories/${slug}/`}>
+						<span class:list={['im-badge', `im-badge--${c.badge}`]}>
+							<span class="im-badge__dot" aria-hidden="true" />
+							{c.name}
+						</span>
+						<span class="topic-blurb">{c.blurb}</span>
+						<span class="topic-count">
+							{categoryCount(slug)} {categoryCount(slug) === 1 ? 'article' : 'articles'} →
+						</span>
+					</a>
+				))
+			}
+		</div>
+
+		<h2>Tags</h2>
+		<div class="tag-cloud">
+			{
+				tags.map(([tag, count], i) => (
+					<TagChip href={`/tags/${tag}/`} variant={chipVariants[i % 3]}>
+						{tag} <span class="tag-count">{count}</span>
+					</TagChip>
+				))
+			}
+		</div>
+	</div>
+</BaseLayout>
+<style>
+	.page-head {
+		padding: var(--space-12) 0 var(--space-4);
+		max-width: var(--container-md);
+	}
+	.page-head .im-signal-rule {
+		width: 56px;
+		margin: 0 0 var(--space-4);
+	}
+	.page-head p {
+		color: var(--text-muted);
+		font-size: var(--fs-body-lg);
+	}
+	h2 {
+		margin: var(--space-10) 0 var(--space-5);
+	}
+	.cards {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: var(--space-5);
+	}
+	.topic-card {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+		background: var(--surface-card);
+		border: 1px solid var(--border-subtle);
+		border-radius: var(--radius-lg);
+		padding: var(--space-5);
+		text-decoration: none;
+		box-shadow: var(--shadow-sm);
+		transition:
+			transform var(--dur-base) var(--ease-out),
+			box-shadow var(--dur-base) var(--ease-out),
+			border-color var(--dur-base) var(--ease-out);
+	}
+	.topic-card:hover {
+		transform: translateY(-4px);
+		border-color: var(--blue-200);
+		box-shadow: var(--shadow-lg);
+		text-decoration: none;
+	}
+	.topic-name {
+		font-family: var(--font-display);
+		font-weight: var(--fw-bold);
+		color: var(--text-strong);
+		font-size: var(--fs-h4);
+	}
+	.topic-blurb {
+		font-size: var(--fs-body-sm);
+		color: var(--text-muted);
+		flex: 1;
+	}
+	.topic-count {
+		font-family: var(--font-display);
+		font-size: var(--fs-caption);
+		letter-spacing: var(--ls-wide);
+		color: var(--blue-700);
+	}
+	.tag-cloud {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		padding-bottom: var(--space-8);
+	}
+	.tag-count {
+		opacity: 0.65;
+		font-weight: var(--fw-regular);
+	}
+	@media (max-width: 960px) {
+		.cards {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@media (max-width: 560px) {
+		.cards {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

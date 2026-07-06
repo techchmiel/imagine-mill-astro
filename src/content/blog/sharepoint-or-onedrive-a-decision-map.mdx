@@ -1,0 +1,82 @@
+---
+title: 'SharePoint or OneDrive? A decision map'
+description: 'They''re built on the same engine, they both hold files, and picking wrong creates the exact mess you were trying to avoid. One question sorts it out — plus what to do about the gray areas.'
+pubDate: 2026-06-24
+platforms: ['sharepoint', 'onedrive', 'microsoft-365']
+category: 'decision-guide'
+tags: ['file-storage', 'sharing', 'collaboration', 'governance']
+audience: 'everyone'
+heroStyle: 2
+---
+import Callout from '../../components/Callout.astro';
+
+Every organization on Microsoft 365 has the same folder somewhere: a critical team document living in someone's personal OneDrive, shared through a link forwarded four times, and that someone just accepted a job offer elsewhere.
+
+This article exists to prevent that folder. The SharePoint-or-OneDrive question feels confusing because the two products look nearly identical from inside a browser — same interface, same sync client, same sharing buttons. But the decision is genuinely simple once you know the one question that matters.
+
+## The one question
+
+> **If I left the company tomorrow, should this file keep existing?**
+
+That's it. That's the map.
+
+- **Yes, the team still needs it** → it belongs in **SharePoint** (or a Teams channel, which is SharePoint wearing a comfortable sweater — more on that below).
+- **No, it's my work in progress, my notes, my stuff** → **OneDrive** is exactly right.
+
+Everything else — the feature comparisons, the storage math, the seventeen-tab blog posts — is commentary on that one question.
+
+## Why the distinction actually matters
+
+Under the hood, your OneDrive *is* a SharePoint site — a personal one, owned by you. And ownership is the whole story:
+
+**OneDrive files are tied to a person.** When that person leaves and their account is deleted, their OneDrive enters a countdown (by default their manager gets temporary access, and eventually the content is permanently deleted). Every shared link they created is now a dependency on an ex-employee. Teams have lost years of institutional knowledge this way, one departure at a time.
+
+**SharePoint files are tied to a team.** People join, people leave, the site and its permissions carry on. The new hire gets added to the group and instantly sees everything they should — no forwarding, no "can you reshare that?"
+
+There's also the discovery angle: files in a team site are findable by teammates (and by [Copilot](/articles/rolling-out-copilot-without-the-chaos/), if you've gone down that road). Files in a personal OneDrive are invisible until explicitly shared — which is correct for drafts and career plans, and quietly disastrous for the team budget tracker.
+
+## The decision map, expanded
+
+| The file is… | It goes in… | Because… |
+| --- | --- | --- |
+| A draft only you're working on | OneDrive | It's yours; share when ready |
+| The final version the team relies on | SharePoint | It must outlive you |
+| A project doc several people edit | SharePoint / Teams | Co-ownership, not link-forwarding |
+| Your personal notes and 1:1 prep | OneDrive | Nobody else's business |
+| A policy, template, or process doc | SharePoint | Reference material is a team asset |
+| Something you're about to email a colleague | OneDrive, shared link | Lightweight, replaceable |
+| The spreadsheet that runs the department | SharePoint | If this is in OneDrive, fix it today |
+
+<Callout type="tip" title="The two-week rule">
+A useful habit: anything that starts in OneDrive and survives two weeks of teamwork gets moved to the team's SharePoint library. Drafts are personal; survivors are shared property. Moving it is two clicks — "Move to" keeps sharing intact.
+</Callout>
+
+## "But we just put everything in Teams"
+
+Great news: you're already using SharePoint. Every Teams channel stores its files in a SharePoint document library; the Files tab is just a viewport onto it. When you're choosing where a *team* file lives, "the right channel in Teams" and "SharePoint" are the same answer.
+
+The practical guidance for most people is honestly this short:
+
+1. **Team file?** Put it in the relevant Teams channel.
+2. **Personal file?** OneDrive.
+3. **Formal library that needs structure** — metadata, approval flows, a proper intranet page? That's when you work in SharePoint directly, and probably with whoever owns your intranet.
+
+## The gray areas, adjudicated
+
+**"It's my file but I shared it with five people."** Sharing isn't the test — ownership is. If those five people would be stuck without it after you leave, it's a team file in the wrong home.
+
+**"Our whole department shares one person's OneDrive folder."** This is the organizational equivalent of running the office through one person's personal phone number. It works right up until it very much doesn't. Migrate it.
+
+**"Where do meeting recordings go?"** Teams already decided for you: channel meetings record to SharePoint, other meetings to the organizer's OneDrive. Which, notice, follows the map — channel meetings belong to the team, ad-hoc calls belong to someone.
+
+**"What about the boss's files?"** Executives are the worst offenders, because nobody tells them to move the strategy deck out of OneDrive. Somebody should. Gently. Perhaps by forwarding this article, which is why we wrote that sentence.
+
+## If you remember nothing else
+
+OneDrive is your desk. SharePoint is the filing room. You can absolutely work at your desk all day — just don't be the person whose desk drawer turns out to contain the only copy of the org chart, the budget, and the disaster recovery plan.
+
+And if you're now realizing your tenant has a few of those desk drawers: that's normal, it's fixable, and it's a far better discovery to make today than during someone's exit interview.
+
+---
+
+*Speaking of files and their fates — ever wondered what actually happens when someone hits delete? [We traced the whole journey](/articles/where-do-deleted-files-actually-go/).*

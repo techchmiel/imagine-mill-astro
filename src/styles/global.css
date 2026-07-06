@@ -1,127 +1,156 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
+/* ============================================================
+   ImagineMill · Global stylesheet
+   Imports the design-system tokens + component classes, then
+   adds site-level layout and long-form article (prose) styles.
+   Design system source of truth: .references/ImagineMill Design System
+   ============================================================ */
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './tokens/effects.css';
+@import './tokens/base.css';
+@import './components.css';
 
-:root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
+html {
+	scroll-behavior: smooth;
 }
-body {
-	font-family: var(--font-atkinson);
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
-	font-size: 20px;
-	line-height: 1.7;
+
+/* ---- Layout helpers ------------------------------------ */
+.im-container {
+	max-width: var(--container-xl);
+	margin: 0 auto;
+	padding-left: var(--gutter);
+	padding-right: var(--gutter);
 }
-main {
-	width: 720px;
-	max-width: calc(100% - 2em);
-	margin: auto;
-	padding: 3em 1em;
+.im-container--md {
+	max-width: var(--container-md);
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
-	line-height: 1.2;
+
+/* ---- Long-form article body (rendered markdown) -------- */
+.prose {
+	font-size: var(--fs-body-lg);
+	line-height: var(--lh-relaxed);
+	color: var(--text-body);
 }
-h1 {
-	font-size: 3.052em;
-}
-h2 {
-	font-size: 2.441em;
-}
-h3 {
-	font-size: 1.953em;
-}
-h4 {
-	font-size: 1.563em;
-}
-h5 {
-	font-size: 1.25em;
-}
-strong,
-b {
-	font-weight: 700;
-}
-a {
-	color: var(--accent);
-}
-a:hover {
-	color: var(--accent);
-}
-p {
-	margin-bottom: 1em;
+.prose > * {
+	max-width: var(--measure);
 }
 .prose p {
-	margin-bottom: 2em;
+	margin: 0 0 1.25em;
 }
-textarea {
+.prose h2 {
+	margin: 1.8em 0 0.6em;
+	font-size: var(--fs-h2);
+}
+.prose h3 {
+	margin: 1.5em 0 0.5em;
+	font-size: var(--fs-h3);
+}
+.prose h4 {
+	margin: 1.4em 0 0.4em;
+}
+.prose a {
+	color: var(--text-link);
+	text-decoration: underline;
+	text-decoration-color: var(--blue-200);
+	text-underline-offset: 3px;
+	transition: text-decoration-color var(--dur-base) var(--ease-standard);
+}
+.prose a:hover {
+	text-decoration-color: var(--blue-500);
+}
+.prose ul,
+.prose ol {
+	padding-left: 1.4em;
+	margin: 0 0 1.25em;
+}
+.prose li {
+	margin-bottom: 0.45em;
+}
+.prose li::marker {
+	color: var(--blue-500);
+	font-weight: var(--fw-bold);
+}
+.prose blockquote {
+	margin: 1.6em 0;
+	padding: var(--space-4) var(--space-6);
+	border-left: 4px solid var(--blue-400);
+	background: var(--blue-050);
+	border-radius: 0 var(--radius-md) var(--radius-md) 0;
+	font-size: var(--fs-body-lg);
+	color: var(--navy-700);
+}
+.prose blockquote p:last-child {
+	margin-bottom: 0;
+}
+.prose hr {
+	border: 0;
+	height: 3px;
+	width: 64px;
+	border-radius: var(--radius-pill);
+	background: var(--gradient-signal);
+	margin: 2.5em 0;
+}
+.prose table {
 	width: 100%;
-	font-size: 16px;
+	border-collapse: collapse;
+	margin: 1.6em 0;
+	font-size: var(--fs-body);
+	background: var(--surface-card);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-md);
+	overflow: hidden;
 }
-input {
-	font-size: 16px;
+.prose th {
+	font-family: var(--font-display);
+	font-size: var(--fs-body-sm);
+	letter-spacing: var(--ls-wide);
+	text-align: left;
+	color: var(--text-strong);
+	background: var(--gray-050);
+	padding: 10px 14px;
+	border-bottom: 1.5px solid var(--border-default);
 }
-table {
-	width: 100%;
+.prose td {
+	padding: 10px 14px;
+	border-bottom: 1px solid var(--border-subtle);
+	vertical-align: top;
 }
-img {
+.prose tr:last-child td {
+	border-bottom: 0;
+}
+.prose img {
 	max-width: 100%;
 	height: auto;
-	border-radius: 8px;
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-md);
 }
-code {
-	padding: 2px 5px;
-	background-color: rgb(var(--gray-light));
-	border-radius: 2px;
+/* Shiki code blocks — restyled to the brand terminal look.
+   Code gets the full content column, not the text measure. */
+.prose > pre {
+	max-width: none;
 }
-pre {
-	padding: 1.5em;
-	border-radius: 8px;
+.prose pre {
+	background: var(--surface-navy-2) !important;
+	border: 1px solid var(--navy-700);
+	border-radius: var(--radius-md);
+	padding: var(--space-4) var(--space-5);
+	overflow-x: auto;
+	margin: 1.6em 0;
+	font-size: var(--fs-body-sm);
+	line-height: var(--lh-relaxed);
 }
-pre > code {
-	all: unset;
+.prose pre code {
+	background: transparent;
+	padding: 0;
+	color: inherit;
+	font-size: inherit;
 }
-blockquote {
-	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0;
-	font-size: 1.333em;
-}
-hr {
-	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
-}
-@media (max-width: 720px) {
-	body {
-		font-size: 18px;
-	}
-	main {
-		padding: 1em;
-	}
+.prose strong {
+	color: var(--text-strong);
 }
 
+/* ---- Accessibility -------------------------------------- */
 .sr-only {
 	border: 0;
 	padding: 0;
@@ -130,12 +159,26 @@ hr {
 	height: 1px;
 	width: 1px;
 	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
-	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
 	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
 	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
+}
+
+:focus-visible {
+	outline: none;
+	box-shadow: var(--ring);
+	border-radius: var(--radius-xs);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+	html {
+		scroll-behavior: auto;
+	}
 }

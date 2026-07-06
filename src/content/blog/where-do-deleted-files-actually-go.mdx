@@ -1,0 +1,77 @@
+---
+title: 'Where do deleted files actually go in Microsoft 365?'
+description: 'Between "oops" and "gone forever" there''s a 93-day journey through two recycle bins, a few safety nets, and one or two genuinely scary cliffs. Here''s the full map — and exactly how long you have at each stage.'
+pubDate: 2026-06-17
+platforms: ['onedrive', 'sharepoint', 'microsoft-365']
+category: 'explainer'
+tags: ['recycle-bin', 'retention', 'data-recovery', 'governance']
+audience: 'everyone'
+heroStyle: 5
+---
+import Callout from '../../components/Callout.astro';
+
+It's 4:55 on a Friday. Someone — let's call him Dave, because it's always Dave — selects a folder to tidy up, hits delete, and empties the recycle bin for good measure. Dave likes a clean workspace. The folder contained the only copy of the client deliverables.
+
+Is the file gone? Almost certainly not. But *how* not-gone it is depends on where it was and how much time has passed. Let's trace the whole journey, because knowing this map is the difference between a two-minute fix and a very long Monday.
+
+## The short version
+
+When you delete a file in SharePoint or OneDrive, it gets **93 days** across two recycle bins before it's truly gone. That clock starts at the original deletion and does not reset when the file moves between bins.
+
+The journey:
+
+1. **First-stage recycle bin** — the one you can see. Restore it yourself, two clicks, no shame.
+2. **Second-stage recycle bin** — reached when someone deletes from (or empties) the first bin. Invisible to regular users, restorable by a site collection admin, still inside the same 93 days.
+3. **After 93 days** — genuinely deleted. There's one last emergency option (below), but you're now in "call for help" territory.
+
+<Callout type="info" title="The clock is shared">
+The 93 days spans both bins combined. If a file sits in the first-stage bin for 80 days before Dave empties it, the second-stage bin holds it for only the remaining 13. It is not 93 + 93 — a misunderstanding that has ruined several Mondays.
+</Callout>
+
+## Stage one: the recycle bin you know
+
+Delete a file in SharePoint or OneDrive and it lands in that site's recycle bin (in OneDrive, *you* are the site). Anyone who deleted a file can restore their own; a site owner can see everyone's deletions.
+
+This is where 95% of recoveries happen, and they're anticlimactic: open the recycle bin, find the file, click restore. It returns to its original location with its version history intact — including all the versions from before the "final_FINAL_v3" era.
+
+## Stage two: the recycle bin you don't
+
+When Dave "empties the recycle bin for good measure," files drop into the **second-stage recycle bin** (also called the site collection recycle bin). Regular users can't see it, which is why so many people believe emptying the bin is final. It isn't.
+
+A SharePoint admin or site collection administrator can open it and restore anything still inside its remaining window. For OneDrive there's a similar path — the deleted-from-recycle-bin content sits in the second stage until day 93.
+
+So the correct response to "I emptied the recycle bin" is not panic. It's "what day did you originally delete it?" followed by a polite message to IT.
+
+## The cliff at day 93 (and the one rope)
+
+After 93 days, the file is hard-deleted: the platform removes the content and, eventually, the encryption keys that made it readable. No admin console button brings it back.
+
+There is exactly one rope: Microsoft keeps **restore-capable backups for roughly 14 additional days** past deletion, and support can perform a *point-in-time restore* — of an **entire site or OneDrive**, not one file. It's a blunt instrument for genuine disasters (mass deletion, ransomware, sync catastrophes), not for Dave's folder. After that window, the story truly ends.
+
+Related and worth knowing: OneDrive itself has a "Files Restore" feature that can rewind your whole OneDrive to any point in the last 30 days — the tool of choice when something (a bad sync, a ransomware scare, an overtired human) mangles hundreds of files at once.
+
+## "But what about email?" — a quick detour
+
+Outlook runs on different plumbing with different (and shorter!) timers. Deleted email goes to the Deleted Items folder, where it sits indefinitely — until it's purged from there, at which point a **Recoverable Items** period applies: 14 days by default, extendable by your admin to a maximum of 30. Users can self-serve from Outlook's "Recover deleted items" option. Shorter windows, same principle: deleted rarely means deleted, but the clock is always running.
+
+## When the rules above are overruled
+
+Two big asterisks on everything you just read:
+
+**Retention policies win.** If your organization uses Microsoft Purview retention (common in legal, finance, healthcare — anywhere with a compliance officer and strong opinions), deleted content can be preserved far beyond these windows, tucked into places like the Preservation Hold library. Deleting the file from view doesn't delete it from the record. This protects the org *and* occasionally rescues Dave.
+
+**Departing users are a special case.** When an account is deleted, its OneDrive survives for a grace period — 30 days by default, configurable — during which the person's manager typically gets access, then it moves through its own 93-day deleted state that an admin can still rescue. If someone's leaving and their OneDrive matters, [that's your sign the files belonged in SharePoint all along](/articles/sharepoint-or-onedrive-a-decision-map/).
+
+## The cheat sheet
+
+| Moment | Who can fix it | How |
+| --- | --- | --- |
+| Just deleted | You | Recycle bin → restore |
+| Emptied the bin | Site collection admin / IT | Second-stage recycle bin |
+| Day 93 has passed | Microsoft support, maybe | Point-in-time restore, ~14-day window, whole site |
+| Mass mangling in OneDrive | You or IT | Files Restore, rewind up to 30 days |
+| Email purged from Deleted Items | You, then admin | Recover deleted items, 14 days (up to 30) |
+
+Print that. Or better — remember one sentence: **deletion in Microsoft 365 is a 93-day process, not an event.** Which means almost every deleted-file emergency is actually a calm walk to the right recycle bin.
+
+Just maybe don't tell Dave that. A little Friday-afternoon caution is good for everyone.

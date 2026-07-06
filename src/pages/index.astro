@@ -1,49 +1,294 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+import GradientArt from '../components/GradientArt.astro';
+import Newsletter from '../components/Newsletter.astro';
+import PostCard from '../components/PostCard.astro';
+import { CATEGORIES, PLATFORMS, readingTime, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const featured = posts.find((p) => p.data.featured) ?? posts[0];
+const rest = posts.filter((p) => p.id !== featured?.id).slice(0, 6);
+
+const platformCounts = Object.fromEntries(
+	Object.keys(PLATFORMS).map((slug) => [
+		slug,
+		posts.filter((p) => p.data.platforms.includes(slug)).length,
+	]),
+);
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<BaseLayout title={`${SITE_TITLE} — Modern workplace solutions`} description={SITE_DESCRIPTION}>
+	{
+		featured && (
+			<section class="hero">
+				<div class="im-container inner">
+					<div>
+						<div class="eyebrow-row">
+							<span class="im-eyebrow featured-label">
+								Featured · {CATEGORIES[featured.data.category]?.name}
+							</span>
+							<span class="im-node" aria-hidden="true" />
+						</div>
+						<h1>{featured.data.title}</h1>
+						<p class="excerpt">{featured.data.description}</p>
+						<div class="ctas">
+							<a class="im-btn im-btn--primary im-btn--lg" href={`/articles/${featured.id}/`}>
+								Read the article
+								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M5 12h14" />
+									<path d="m12 5 7 7-7 7" />
+								</svg>
+							</a>
+							<a class="im-btn im-btn--secondary im-btn--lg" href="/articles/">
+								Browse all articles
+							</a>
+						</div>
+						<p class="hero-meta">
+							<FormattedDate date={featured.data.pubDate} />
+							<span class="sep">·</span>
+							<span>{readingTime(featured.body)} min read</span>
+						</p>
+					</div>
+					<a class="hero-art" href={`/articles/${featured.id}/`} aria-label={featured.data.title}>
+						<GradientArt seed={featured.id} style={featured.data.heroStyle} />
+					</a>
+				</div>
+			</section>
+		)
+	}
+
+	<section class="im-container fresh">
+		<div class="section-head">
+			<h2>Fresh from the mill</h2>
+			<a class="see-all" href="/articles/">All articles →</a>
+		</div>
+		<div class="grid">
+			{rest.map((post) => <PostCard post={post} />)}
+		</div>
+	</section>
+
+	<section class="topics-band">
+		<div class="im-container">
+			<hr class="im-signal-rule" />
+			<h2>Find your corner of the workplace</h2>
+			<p class="section-sub">Whatever you run — or whatever runs you — start where it hurts.</p>
+			<div class="topic-grid">
+				{
+					Object.entries(PLATFORMS).map(([slug, p]) => (
+						<a class="topic-card" href={`/platforms/${slug}/`}>
+							<span class="topic-node" aria-hidden="true" />
+							<span class="topic-name">{p.name}</span>
+							<span class="topic-blurb">{p.blurb}</span>
+							<span class="topic-count">
+								{platformCounts[slug]} {platformCounts[slug] === 1 ? 'article' : 'articles'} →
+							</span>
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="im-container">
+		<Newsletter />
+	</section>
+</BaseLayout>
+<style>
+	.hero {
+		background: var(--gradient-screen-soft);
+		border-bottom: 1px solid var(--blue-100);
+	}
+	.hero .inner {
+		display: grid;
+		grid-template-columns: 1.05fr 0.95fr;
+		gap: var(--space-12);
+		align-items: center;
+		padding-top: var(--space-12);
+		padding-bottom: var(--space-16);
+	}
+	.eyebrow-row {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin-bottom: var(--space-4);
+	}
+	.featured-label {
+		color: var(--red-500);
+	}
+	.im-node {
+		color: var(--green-500);
+		width: 12px;
+		height: 12px;
+	}
+	h1 {
+		font-size: clamp(32px, 5vw, 46px);
+		line-height: 1.08;
+		margin: 0 0 var(--space-4);
+	}
+	.excerpt {
+		font-size: var(--fs-body-lg);
+		color: var(--text-body);
+		max-width: 52ch;
+		margin: 0 0 var(--space-6);
+	}
+	.ctas {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+		align-items: center;
+	}
+	.hero-meta {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin: var(--space-6) 0 0;
+		font-size: var(--fs-body-sm);
+		color: var(--text-muted);
+	}
+	.sep {
+		color: var(--gray-300);
+	}
+	.hero-art {
+		display: block;
+		aspect-ratio: 4 / 3;
+		border-radius: var(--radius-xl);
+		overflow: hidden;
+		box-shadow: var(--shadow-xl);
+		transition:
+			transform var(--dur-base) var(--ease-out),
+			box-shadow var(--dur-base) var(--ease-out);
+	}
+	.hero-art:hover {
+		transform: translateY(-4px);
+		box-shadow:
+			var(--shadow-xl),
+			var(--shadow-glow-blue);
+	}
+	.fresh {
+		padding-top: var(--space-16);
+	}
+	.section-head {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: var(--space-4);
+		margin-bottom: var(--space-6);
+	}
+	.section-head h2 {
+		margin: 0;
+	}
+	.see-all {
+		font-family: var(--font-display);
+		font-weight: var(--fw-semibold);
+		font-size: var(--fs-body-sm);
+		letter-spacing: var(--ls-wide);
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--space-6);
+	}
+	.topics-band {
+		margin-top: var(--space-20);
+		padding: var(--space-16) 0;
+		background: var(--gray-050);
+		border-top: 1px solid var(--border-subtle);
+		border-bottom: 1px solid var(--border-subtle);
+	}
+	.topics-band .im-signal-rule {
+		width: 56px;
+		margin: 0 0 var(--space-4);
+	}
+	.topics-band h2 {
+		margin-bottom: var(--space-2);
+	}
+	.section-sub {
+		color: var(--text-muted);
+		margin: 0;
+	}
+	.topic-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: var(--space-5);
+		margin-top: var(--space-8);
+	}
+	.topic-card {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		background: var(--surface-card);
+		border: 1px solid var(--border-subtle);
+		border-radius: var(--radius-lg);
+		padding: var(--space-5);
+		text-decoration: none;
+		box-shadow: var(--shadow-sm);
+		transition:
+			transform var(--dur-base) var(--ease-out),
+			box-shadow var(--dur-base) var(--ease-out),
+			border-color var(--dur-base) var(--ease-out);
+	}
+	.topic-card:hover {
+		transform: translateY(-4px);
+		border-color: var(--blue-200);
+		box-shadow: var(--shadow-lg);
+		text-decoration: none;
+	}
+	.topic-node {
+		width: 12px;
+		height: 12px;
+		border-radius: var(--radius-node);
+		border: var(--bw-node) solid var(--green-500);
+		margin-bottom: 4px;
+	}
+	.topic-card:nth-child(3n + 2) .topic-node {
+		border-color: var(--blue-500);
+	}
+	.topic-card:nth-child(4n + 3) .topic-node {
+		border-color: var(--red-500);
+	}
+	.topic-name {
+		font-family: var(--font-display);
+		font-weight: var(--fw-bold);
+		color: var(--text-strong);
+		font-size: var(--fs-h4);
+	}
+	.topic-blurb {
+		font-size: var(--fs-body-sm);
+		color: var(--text-muted);
+		flex: 1;
+	}
+	.topic-count {
+		font-family: var(--font-display);
+		font-size: var(--fs-caption);
+		letter-spacing: var(--ls-wide);
+		color: var(--blue-700);
+		margin-top: var(--space-2);
+	}
+	section > :global(.newsletter) {
+		margin-top: var(--space-20);
+	}
+	@media (max-width: 960px) {
+		.hero .inner {
+			grid-template-columns: 1fr;
+			gap: var(--space-8);
+		}
+		.grid {
+			grid-template-columns: 1fr 1fr;
+		}
+		.topic-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@media (max-width: 620px) {
+		.grid,
+		.topic-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
